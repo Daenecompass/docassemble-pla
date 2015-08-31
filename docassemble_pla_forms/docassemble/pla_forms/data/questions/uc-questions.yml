@@ -1,0 +1,76 @@
+---
+metadata:
+  description: |
+    Unemployment compensation forms
+  authors:
+    - name: Jonathan Pyle
+      organization: Philadelphia Legal Assistance
+  revision_date: 2015-08-31
+---
+include:
+  - docassemble.base:data/questions/basic-questions.yml
+  - docassemble.pla_forms:data/questions/basic-questions.yml
+---
+objects:
+  - advocate: Individual
+  - form_recipient: Individual
+---
+code: |
+  advocate.name.first = "Julia"
+  advocate.name.last  = "Simon-Mishel"
+  advocate.firm       = "Philadelphia Legal Assistance"
+---
+mandatory: true
+question: |
+  % if user.doing_well:
+    Good to hear it!
+  % else:
+    Sorry to hear that!
+  % endif
+sets: user_done
+buttons:
+  - Exit: exit
+  - Restart: restart
+---
+question: Are you doing well today?
+yesno: user.doing_well
+---
+yesno: ok_to_submit_appointment_of_representative_form
+attachments:
+  - name: Appointment of Representative Form for ${ user }
+    content: |
+      [CENTER] DEPARTMENT OF LABOR AND INDUSTRY [BR] UNEMPLOYMENT COMPENSATION BOARD OF REVIEW
+
+      [BOLDCENTER] Appointment of Representative
+
+      | In re: ${ claimant } (Claimant)
+
+      I hereby appoint **${ advocate }**, of ${ advocate.firm }, as my representative in my claim for unemployment compensation. I authorize the Unemployment Compensation Board of Review, the Referees’ Office and the Unemployment Compensation Service Center to release any and all information or documents from my file or computer record that s/he requests.
+
+      | Date: ${ today() }
+      | ${ claimant.signature.show(width='2in') }
+      | Claimant
+
+      I hereby accept this appointment.
+
+      | Date: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+      [SKIPLINE]
+      
+      | \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ 
+      | ${ advocate }, Representative
+    filename: Appointment_of_Representative_${ space_to_underscore(user) }
+    variable_name: form_attachment
+---
+sets: success_sending_form
+code: |
+  to_recipients = []
+  bcc_recipients = None
+  if user_wants_copy_emailed:
+    to_recipients.append(user)
+    bcc_recipients = [form_recipient, advocate]
+  else:
+    to_recipients.append(form_recipient)
+    to_recipients.append(other_form_recipient)
+  success_sending_form = send_email(to=to_recipients, bcc=bcc_recipients, body="The " + form_type + " for " + str(user.name) + " is attached.", subject=capitalize(form_type) + " for " + str(user.name), attachments=[form_attachment])
+...

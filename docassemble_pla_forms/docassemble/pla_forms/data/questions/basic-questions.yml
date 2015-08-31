@@ -1,0 +1,65 @@
+---
+metadata:
+  description: |
+    PLA forms - common questions
+  authors:
+    - name: Jonathan Pyle
+      organization: Philadelphia Legal Assistance
+  revision_date: 2015-08-31
+---
+imports:
+  - datetime
+---
+objects:
+  - form_recipient: Individual
+  - other_form_recipient: Individual  
+---
+code: |
+  form_recipient.name.first      = 'Jonathan'
+  form_recipient.name.last       = 'Pyle'
+  form_recipient.email           = 'jpyle@philalegal.org'
+  form_recipient.organization    = 'Philadelphia Legal Assistance'
+  form_recipient.address.address = '718 Arch Street'
+  form_recipient.address.unit    = 'Suite 300N'
+  form_recipient.address.city    = 'Philadelphia'
+  form_recipient.address.state   = 'PA'
+  form_recipient.address.zip     = '19106'
+  form_recipient.phone           = '215.981.3800'
+  form_recipient.fax             = '215.981.3870'
+  form_recipient.org_email       = 'faxes@philalegal.org'
+---
+code: |
+  other_form_recipient.name.first = 'Legal'
+  other_form_recipient.name.last = 'Server'
+---
+code: |
+  other_form_recipient.email = url_args.get('caseid', None)
+  if other_form_recipient.email is None:
+    other_form_recipient.email = form_recipient.email
+  else:
+    other_form_recipient.email += '@pla.legalserver.org'
+---
+template: how_to_send_documents
+content: |
+  There are several ways you can provide us with a copy of your ${ form_type }:
+
+    *   You can come to our office and we can make a copy of it;
+    *   You can mail a copy of it to us;
+    *   You can fax a copy of it to ${ form_recipient.fax }; or
+    *   You can scan and e-mail it to ${ form_recipient.org_email }.
+---
+sets: show_information_about_mailing
+buttons:
+  - Exit: exit
+  - Restart: restart
+question: |
+  Please send us your ${ form_type }.
+subquestion: |
+  ${ how_to_send_documents }
+  
+  Our address is:
+  
+  ${ form_recipient.address }
+    
+  Our phone number is ${ form_recipient.phone }.
+...
