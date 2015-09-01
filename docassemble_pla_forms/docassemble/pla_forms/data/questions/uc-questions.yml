@@ -30,8 +30,8 @@ mandatory: true
 code: |
   the_signature = blank_signature
   if agrees_to_sign_documents:
-    remove('aor_content')
-    remove('retainer_content')
+    del aor_content
+    del retainer_content
     the_signature = real_signature
     if agrees_to_submit_documents:
       need(form_submitted)
@@ -57,9 +57,9 @@ attachments:
 ---
 yesno: agrees_to_submit_documents
 question: |
-  Do you agree to submit these documents to ${ form_recipient.organization }?
+  Your signature has been added to the documents below.  Do you agree to submit these documents to ${ form_recipient.organization }?
 subquestion: |
-  Your documents are below.  Please review to make sure they are ok to submit to ${ form_recipient.organization}.  You can review each document by pressing "Preview" or by opening the PDF file.  If you would like to submit the documents, press "Yes."  You will have the opportunity to e-mail them to yourself.
+  Please review the documents below to make sure you wish to submit them to ${ form_recipient.organization}.  You can review each document by pressing "Preview" or by opening the PDF file.  If you would like to submit the documents, press "Yes."  You will be given the opportunity to e-mail them to yourself.
 attachments:
   - name: Retainer Agreement
     content: |
@@ -159,23 +159,36 @@ template: aor_content
 content: |
   [CENTER] DEPARTMENT OF LABOR AND INDUSTRY [BR] UNEMPLOYMENT COMPENSATION BOARD OF REVIEW
 
+  [SKIPLINE]
+  
   [BOLDCENTER] Appointment of Representative
 
+  [SKIPLINE]
+  
   | In re: ${ user } (Claimant)
 
   I hereby appoint **${ advocate }**, of ${ advocate.organization }, as my representative in my claim for unemployment compensation. I authorize the Unemployment Compensation Board of Review, the Referees' Office and the Unemployment Compensation Service Center to release any and all information or documents from my file or computer record that s/he requests.
 
   | Claimaint's signature:
-  | ${ the_signature }
-  | ${ user }, Claimant
-  | Date: ${ today() }
 
-  [SKIPLINE] [SKIPLINE] I hereby accept this appointment.
+  ${ the_signature }
+
+  | Date: ${ today() }
+  | ${ user }, Claimant
+
+  [SKIPLINE]
+  [SKIPLINE]
+
+  **To be filled out by the representative:**
+
+  I hereby accept this appointment.
 
   | Representative's signature:
-  | ${ blank_signature }
-  | ${ advocate }, Representative
+
+  ${ blank_signature }
+
   | Date: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+  | ${ advocate }, Representative
 ---
 template: blank_signature
 content: |
