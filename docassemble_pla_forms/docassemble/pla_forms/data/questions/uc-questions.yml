@@ -8,59 +8,69 @@ metadata:
   revision_date: 2015-08-31
 ---
 include:
-  - docassemble.base:data/questions/basic-questions.yml
   - docassemble.pla_forms:data/questions/basic-questions.yml
 ---
 objects:
   - advocate: Individual
-  - form_recipient: Individual
 ---
 code: |
-  advocate.name.first = "Julia"
-  advocate.name.last  = "Simon-Mishel"
-  advocate.firm       = "Philadelphia Legal Assistance"
+  advocate.name.first      = "Julia"
+  advocate.name.last       = "Simon-Mishel"
+  advocate.name.email      = "jsimonmishel@philalegal.org"
+  advocate.organization_abbreviation = "PLA"
+  advocate.organization    = 'Philadelphia Legal Assistance'
+  advocate.address.address = '718 Arch Street'
+  advocate.address.unit    = 'Suite 300N'
+  advocate.address.city    = 'Philadelphia'
+  advocate.address.state   = 'PA'
+  advocate.address.zip     = '19106'
+  form_type                = "Retainer Agreement and Appointment of Representative Forms"
 ---
 mandatory: true
+code: |
+  the_signature = blank_signature
+  if agrees_to_sign_documents:
+    remove('aor_content')
+    remove('retainer_content')
+    the_signature = real_signature
+    if agrees_to_submit_documents:
+      need(form_submitted)
+    else:
+      need(form_not_appropriate)
+  else:
+    need(form_not_appropriate)
+---
+yesno: agrees_to_sign_documents
 question: |
-  % if user.doing_well:
-    Good to hear it!
-  % else:
-    Sorry to hear that!
-  % endif
-sets: user_done
-buttons:
-  - Exit: exit
-  - Restart: restart
----
-question: Are you doing well today?
-yesno: user.doing_well
----
-yesno: ok_to_submit_appointment_of_representative_form
+  Do you agree to sign these documents?
+subquestion: |
+  The documents are below.  Please review to make sure they are ok to submit to ${ form_recipient.organization}.  You can review each document by pressing "Preview" or by opening the PDF file.  If you agree to sign these documents, press "Yes."
 attachments:
-  - name: Appointment of Representative Form for ${ user }
+  - name: Retainer Agreement
     content: |
-      [CENTER] DEPARTMENT OF LABOR AND INDUSTRY [BR] UNEMPLOYMENT COMPENSATION BOARD OF REVIEW
-
-      [BOLDCENTER] Appointment of Representative
-
-      | In re: ${ claimant } (Claimant)
-
-      I hereby appoint **${ advocate }**, of ${ advocate.firm }, as my representative in my claim for unemployment compensation. I authorize the Unemployment Compensation Board of Review, the Referees’ Office and the Unemployment Compensation Service Center to release any and all information or documents from my file or computer record that s/he requests.
-
-      | Date: ${ today() }
-      | ${ claimant.signature.show(width='2in') }
-      | Claimant
-
-      I hereby accept this appointment.
-
-      | Date: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-      [SKIPLINE]
-      
-      | \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ 
-      | ${ advocate }, Representative
+      ${ retainer_content }
+    filename: Retainer_Agreement_${ space_to_underscore(user) }
+  - name: Appointment of Representative Form
+    content: |
+      ${ aor_content }
     filename: Appointment_of_Representative_${ space_to_underscore(user) }
-    variable_name: form_attachment
+---
+yesno: agrees_to_submit_documents
+question: |
+  Do you agree to submit these documents to ${ form_recipient.organization }?
+subquestion: |
+  Your documents are below.  Please review to make sure they are ok to submit to ${ form_recipient.organization}.  You can review each document by pressing "Preview" or by opening the PDF file.  If you would like to submit the documents, press "Yes."  You will have the opportunity to e-mail them to yourself.
+attachments:
+  - name: Retainer Agreement
+    content: |
+      ${ retainer_content }
+    filename: Retainer_Agreement_${ space_to_underscore(user) }
+    variable_name: retainer_form
+  - name: Appointment of Representative Form
+    content: |
+      ${ aor_content }
+    filename: Appointment_of_Representative_${ space_to_underscore(user) }
+    variable_name: aor_form
 ---
 sets: success_sending_form
 code: |
@@ -72,5 +82,112 @@ code: |
   else:
     to_recipients.append(form_recipient)
     to_recipients.append(other_form_recipient)
-  success_sending_form = send_email(to=to_recipients, bcc=bcc_recipients, body="The " + form_type + " for " + str(user.name) + " is attached.", subject=capitalize(form_type) + " for " + str(user.name), attachments=[form_attachment])
+  success_sending_form = send_email(to=to_recipients, bcc=bcc_recipients, body="The " + form_type + " for " + str(user.name) + " is attached.", subject=capitalize(form_type) + " for " + str(user.name), attachments=[retainer_form, aor_form])
+---
+question: |
+  I am a citizen of the United States.
+signature: user.signature
+need: user_understands_how_to_use_signature_feature
+under: |
+  ${ user.name }
+---
+template: retainer_content
+content: |
+  [BOLDCENTER] YOUR AGREEMENT WITH [BR] PHILADELPHIA LEGAL ASSISTANCE
+
+  1.  You, ${ user }, and ${ advocate.organization } ("${ advocate.organization_abbreviation }") agree that ${ advocate.organization_abbreviation } will assist you with your claim for unemployment compensation.
+  2.  ${ advocate.organization_abbreviation } will help you with this legal problem by providing advice and/or representation for your Unemployment Compensation Referee Hearing.
+  3.  This agreement is for the above legal problem and the above legal services only. It does not cover any other legal problem. If you need our help with a different legal problem, or if you need additional assistance with the above legal problem, you must apply again. If you have a court case, ${ advocate.organization_abbreviation } will not represent you in the case, or in an appeal of the case, unless such legal services are specifically listed above.
+  4.  This agreement is for ${ advocate.organization_abbreviation }'s assistance of you and nobody else.
+  5.  ***${ advocate }*** will assist you with your legal problem. If your legal assistant is a paralegal, an attorney will supervise the work of the paralegal. You might be assigned to another attorney or paralegal at ${ advocate.organization_abbreviation } without your approval. Other paralegals and attorneys at ${ advocate.organization_abbreviation } may also assist you.
+  6.  **Fees:** ${ advocate.organization_abbreviation } is funded by the government to provide free legal assistance to low-income people. ${ advocate.organization_abbreviation } will not charge a fee for its legal services (before or after the assistance is finished).
+  7.  In addition, you agree to give ${ advocate.organization_abbreviation } your right to receive attorney's fees. You agree to allow the court to pay attorney's fees directly to ${ advocate.organization_abbreviation }, rather than to you. This agreement is an "assignment of fees."
+  8.  **Termination of Assistance:** ${ advocate.organization_abbreviation } will stop assisting you when it has completed the legal services it agreed to provide. ${ advocate.organization_abbreviation } may also stop assisting you if:
+    * Your income goes up,
+    * You do not cooperate,
+    * Your case has no merit, or
+    * There is another good reason.
+  9.  ${ advocate.organization_abbreviation } will give you notice before it stops assisting you. You will have the opportunity to find another legal services provider to assist you.
+  10.  **Your rights:** You have the right to:
+    * Make decisions in your case,
+    * Agree to a settlement in your case,
+    * Tell us to stop assisting you,
+    * Complain if you do not like the way we are assisting you, and
+    * Appeal any decision of ${ advocate.organization_abbreviation } to stop assisting you.
+  11.  **Your obligations to us:** You will cooperate fully with ${ advocate.organization_abbreviation }. This means:
+    * You will truthfully and completely answer questions asked by ${ advocate.organization_abbreviation }. Without knowing the whole truth, we cannot give you appropriate legal advice for your legal problem. All of your confidential communications with us in which you are seeking or receiving legal advice are protected from disclosure to others by the attorney-client privilege.
+    * You will promptly respond to telephone calls and letters from ${ advocate.organization_abbreviation }.
+    * You will provide all information and papers that we request.
+    * You will attend scheduled appointments, hearings, and trials in your case. If you are unable to keep an appointment for any reason, you will make every effort to let us know in advance.
+    * You will not speak to any opposing party or their attorney without the approval of your ${ advocate.organization_abbreviation } legal assistant. If any opposing party or their attorney contacts you, you will not speak with them but will immediately call your ${ advocate.organization_abbreviation } legal assistant.
+    * You will promptly tell your ${ advocate.organization_abbreviation } legal assistant if something happens that affects your case and that your ${ advocate.organization_abbreviation } legal assistant might not know about.
+    * You will promptly tell your ${ advocate.organization_abbreviation } legal assistant if:
+      * Your address or telephone number changes.
+      * You become incarcerated.
+      * Your household income goes up.
+      * The number of people in your household changes.
+    * If ${ advocate.organization_abbreviation } is representing you in a court case and you tell us not to represent you anymore, you will cooperate with us until the court allows us to withdraw from your case.
+  12.  **Our obligations to you:**
+    * ${ advocate.organization_abbreviation } will keep you informed about the status and developments in your case.
+    * ${ advocate.organization_abbreviation } will respond promptly to any reasonable request you make for information about your case.
+    * ${ advocate.organization_abbreviation } will provide you with competent legal assistance consistent with the Rules of Professional Conduct and the restrictions listed below.
+  13.  **Restrictions on assistance:** Because ${ advocate.organization_abbreviation } is funded by the government, there are certain things we cannot and will not do while assisting you. ${ advocate.organization_abbreviation } will not:
+    * File or participate in any class action lawsuits.
+    * Provide legal assistance to or on behalf of any ineligible aliens or incarcerated people.
+    * Provide legal assistance in any criminal case, or in any public housing eviction case that involves drug activity.
+    * Engage in legislative and administrative activities, advocacy training, public demonstrations, or grassroots organizing activities.
+  14.  **Your personal information:** In order to help you with your case, we may need to give information about you and your case to other people. For example, we may need to contact the Department of Labor and Industry and talk to them about your case.
+  15.  **Consultation with other attorneys:** We may need to consult with other attorneys outside of ${ advocate.organization_abbreviation } in order you provide you with the best possible legal assistance.
+  16.  Our funders may require us to give them information about you, including:
+    * Your name and address.
+    * Information about your eligibility for free legal services (including your income, assets, family size, and citizenship).
+    * Your demographic information (including your race, gender, and age).
+    * A general description of your legal problem and the legal services we provided.
+    * How your case ended (for example, with a settlement, court decision, or some other outcome).
+    * Your legal proceedings (if you have any).
+    * Your housing counselor (in homeownership cases).
+    * A copy of this agreement.
+  17.  We sometimes receive requests from researchers for statistical information about the people we help. When we respond to these requests, we will provide information about you and the work we did for you, but we will keep your identity a secret. However, if you have a court case and it is not a secret that we assisted you with the court case (for example, if we talked to a lawyer for an opposing party), then we may share with a researcher the fact that we worked on the court case.
+  18.  *By signing this agreement, you are allowing ${ advocate.organization_abbreviation } to disclose information about you and your case as appropriate to assist you and to provide information to funders and researchers.* ${ advocate.organization_abbreviation } will only disclose your information to the extent permitted by the Rules of Professional Conduct.
+  19.  **Improving UC**. We work closely with the Department of Labor and Industry on improving the functioning of the unemployment compensation system. We may provide your case as an example when working with the government.
+  20.  **Your file:** While providing legal assistance, we will probably obtain documents or other materials belonging to you or relating to your legal problem. We keep those records in your file so that we are better able to assist you and, in some cases, to comply with professional guidelines.
+  21.  It is our policy to keep case files for seven years after the case is closed. We may send case files to storage facilities outside of our offices. After the end of seven years, the file may be destroyed.
+
+  [BEGIN_TWOCOL] Client's signature: [NEWLINE] ${ the_signature } [NEWLINE] Date: ${ today() } [NEWLINE] Client: ${ user } [BREAK] Attorney's signature: [NEWLINE] ${ blank_signature } [NEWLINE] Date: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ [NEWLINE] Attorney: ${ advocate } [NEWLINE] ${ advocate.organization } [NEWLINE] ${ advocate.address } [END_TWOCOL]
+---
+template: aor_content
+content: |
+  [CENTER] DEPARTMENT OF LABOR AND INDUSTRY [BR] UNEMPLOYMENT COMPENSATION BOARD OF REVIEW
+
+  [BOLDCENTER] Appointment of Representative
+
+  | In re: ${ user } (Claimant)
+
+  I hereby appoint **${ advocate }**, of ${ advocate.organization }, as my representative in my claim for unemployment compensation. I authorize the Unemployment Compensation Board of Review, the Referees' Office and the Unemployment Compensation Service Center to release any and all information or documents from my file or computer record that s/he requests.
+
+  | Claimaint's signature:
+  | ${ the_signature }
+  | ${ user }, Claimant
+  | Date: ${ today() }
+
+  [SKIPLINE] [SKIPLINE] I hereby accept this appointment.
+
+  | Representative's signature:
+  | ${ blank_signature }
+  | ${ advocate }, Representative
+  | Date: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+---
+template: blank_signature
+content: |
+  [SKIPLINE] \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ [SKIPLINE]
+---
+template: real_signature
+content: |
+  [SKIPLINE] ${ user.signature.show(width='2in') } [SKIPLINE]
+---
+question: |
+  Would you like copies of the ${ form_type } to be e-mailed to you?
+subquestion: |
+  Please press Yes or No.  The ${ form_type } have not been submitted yet.
+yesno: user_wants_copy_emailed
 ...

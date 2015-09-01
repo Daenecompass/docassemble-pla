@@ -54,33 +54,11 @@ code: |
     to_recipients.append(other_form_recipient)
   success_sending_form = send_email(to=to_recipients, bcc=bcc_recipients, body="The " + form_type + " for " + str(user.name) + " is attached.", subject=capitalize(form_type) + " for " + str(user.name), attachments=[form_attachment])
 ---
-sets: form_submitted
-question: |
-  % if success_sending_form:
-    Thank you for submitting your ${ form_type }.
-  % else:
-    We are sorry, but there was a problem submitting your ${ form_type }.
-  % endif
-subquestion: |
-  % if not success_sending_form:
-    Please contact us about submitting your ${ form_type }.
-  % endif
-buttons:
-  - Exit: exit
-  - Restart: restart
----
 question: |
   Are you willing to electronically sign a statement saying that you are a citizen?
 subquestion: |
   If you say yes, you will be asked to sign your name electronically.  If you are using a computer, you can use your mouse or trackpad to write your signature.  If you are using a mobile device with a touch screen, you can use your finger to sign.  If you cannot sign your name this way, say "no" here.
 yesno: user_is_willing_to_sign_citizenship_attestation
----
-question: |
-  Your ${ form_type } will not be submitted.
-buttons:
-  - Exit: exit
-  - Restart: restart
-sets: form_not_appropriate
 ---
 yesno: able_to_upload
 question: |

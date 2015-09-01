@@ -7,6 +7,9 @@ metadata:
       organization: Philadelphia Legal Assistance
   revision_date: 2015-08-31
 ---
+include:
+  - docassemble.base:data/questions/basic-questions.yml
+---
 imports:
   - datetime
 ---
@@ -62,4 +65,26 @@ subquestion: |
   ${ form_recipient.address }
     
   Our phone number is ${ form_recipient.phone }.
+---
+sets: form_submitted
+question: |
+  % if success_sending_form:
+    Thank you for submitting your ${ form_type }.
+  % else:
+    We are sorry, but there was a problem submitting your ${ form_type }.
+  % endif
+subquestion: |
+  % if not success_sending_form:
+    Please contact us about submitting your ${ form_type }.
+  % endif
+buttons:
+  - Exit: exit
+  - Restart: restart
+---
+question: |
+  Your ${ form_type } will not be submitted.
+buttons:
+  - Exit: exit
+  - Restart: restart
+sets: form_not_appropriate
 ...
