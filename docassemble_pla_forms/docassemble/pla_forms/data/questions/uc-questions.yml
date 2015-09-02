@@ -16,7 +16,7 @@ objects:
 code: |
   advocate.name.first      = "Julia"
   advocate.name.last       = "Simon-Mishel"
-  advocate.name.email      = "jsimonmishel@philalegal.org"
+  advocate.email           = "jsimonmishel@philalegal.org"
   advocate.organization_abbreviation = "PLA"
   advocate.organization    = 'Philadelphia Legal Assistance'
   advocate.address.address = '718 Arch Street'
@@ -24,12 +24,12 @@ code: |
   advocate.address.city    = 'Philadelphia'
   advocate.address.state   = 'PA'
   advocate.address.zip     = '19106'
-  form_type                = "Retainer Agreement and Appointment of Representative Forms"
+  form_type                = "Retainer Agreement and Appointment of Representative forms"
 ---
 mandatory: true
 code: |
   the_signature = blank_signature
-  if agrees_to_sign_documents:
+  if splash_screen and agrees_to_sign_documents:
     del aor_content
     del retainer_content
     the_signature = real_signature
@@ -44,7 +44,7 @@ yesno: agrees_to_sign_documents
 question: |
   Do you agree to sign these documents?
 subquestion: |
-  The documents are below.  Please review to make sure they are ok to submit to ${ form_recipient.organization}.  You can review each document by pressing "Preview" or by opening the PDF file.  If you agree to sign these documents, press "Yes."
+  Please review the documents below to make sure you agree with the contents.  You can review each document by pressing "Preview" or by opening the PDF file.  If you agree to sign these documents, press "Yes," and you will be asked for your signature.
 attachments:
   - name: Retainer Agreement
     content: |
@@ -57,7 +57,7 @@ attachments:
 ---
 yesno: agrees_to_submit_documents
 question: |
-  Your signature has been added to the documents below.  Do you agree to submit these documents to ${ form_recipient.organization }?
+  Your signature has been added to the documents below.  Do you agree to submit these signed documents to ${ form_recipient.organization }?
 subquestion: |
   Please review the documents below to make sure you wish to submit them to ${ form_recipient.organization}.  You can review each document by pressing "Preview" or by opening the PDF file.  If you would like to submit the documents, press "Yes."  You will be given the opportunity to e-mail them to yourself.
 attachments:
@@ -80,12 +80,12 @@ code: |
     to_recipients.append(user)
     bcc_recipients = [form_recipient, advocate]
   else:
+    to_recipients.append(advocate)
     to_recipients.append(form_recipient)
-    to_recipients.append(other_form_recipient)
-  success_sending_form = send_email(to=to_recipients, bcc=bcc_recipients, body="The " + form_type + " for " + str(user.name) + " is attached.", subject=capitalize(form_type) + " for " + str(user.name), attachments=[retainer_form, aor_form])
+  success_sending_form = send_email(to=to_recipients, bcc=bcc_recipients, body="The " + form_type + " for " + str(user.name) + " are attached.", subject=capitalize(form_type) + " for " + str(user.name), attachments=[retainer_form, aor_form])
 ---
 question: |
-  I am a citizen of the United States.
+  Please sign your name below.
 signature: user.signature
 need: user_understands_how_to_use_signature_feature
 under: |
@@ -154,6 +154,17 @@ content: |
   21.  It is our policy to keep case files for seven years after the case is closed. We may send case files to storage facilities outside of our offices. After the end of seven years, the file may be destroyed.
 
   [BEGIN_TWOCOL] Client's signature: [NEWLINE] ${ the_signature } [NEWLINE] Date: ${ today() } [NEWLINE] Client: ${ user } [BREAK] Attorney's signature: [NEWLINE] ${ blank_signature } [NEWLINE] Date: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ [NEWLINE] Attorney: ${ advocate } [NEWLINE] ${ advocate.organization } [NEWLINE] ${ advocate.address } [END_TWOCOL]
+  % if user.is_citizen:
+  [PAGEBREAK]
+  [BOLDCENTER] CITIZENSHIP ATTESTATION
+
+  I am a citizen of the United States.
+
+  ${ the_signature }
+
+  | Name: ${ user }
+  | Date: ${ today() }
+  % endif
 ---
 template: aor_content
 content: |
@@ -203,4 +214,11 @@ question: |
 subquestion: |
   Please press Yes or No.  The ${ form_type } have not been submitted yet.
 yesno: user_wants_copy_emailed
+---
+field: splash_screen
+question: ${ form_type }
+subquestion: |
+  This on-line system allows you to review, sign, and submit your ${ form_type } to ${ form_recipient.organization }. 
+
+  To get started, press "Continue."
 ...
