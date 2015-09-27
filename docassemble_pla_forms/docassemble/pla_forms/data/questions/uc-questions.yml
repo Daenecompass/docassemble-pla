@@ -5,30 +5,89 @@ metadata:
   authors:
     - name: Jonathan Pyle
       organization: Philadelphia Legal Assistance
-  revision_date: 2015-08-31
+  revision_date: 2015-09-25
+---
+interview help:
+  heading: What is this web site?
+  content: |
+    % if is_eap:
+    This is a web site operated by Philadelphia Legal Assistance, which supervises the Employment Advocacy Project.  [Philadelphia Legal Assistance](http://philalegal.org) is a non-profit organization that provides free legal services to low-income residents of Philadelphia.  The Employment Advocacy Project is a law student project that provides assistance with unemployment compensation.  Lawyers at Philadelphia Legal Assistance supervise the law students at the Employment Advocacy Project.  This web site allows you to create and sign ${ form_type }, and then submit these forms to your legal assistant at the Employment Advocacy Project.
+    % else:
+    This is a web site operated by Philadelphia Legal Assistance.  [Philadelphia Legal Assistance](http://philalegal.org) is a non-profit organization that provides free legal services to low-income residents of Philadelphia.  This web site allows you to create and sign ${ form_type }, and then submit these forms to Philadelphia Legal Assistance.
+    % endif
+
+    If you have any problems using this web site, you can contact Jonathan Pyle at Philadelphia Legal Assistance, who can be reached at 215-981-3843 or jpyle@philalegal.org.
 ---
 include:
   - docassemble.pla_forms:data/questions/basic-questions.yml
 ---
+modules:
+  - docassemble.pla_forms.objects
+---
 objects:
   - advocate: Individual
+  - casefile: LegalServerCase
 ---
+mandatory: true
 code: |
   advocate.name.first      = "Julia"
   advocate.name.last       = "Simon-Mishel"
   advocate.email           = "jsimonmishel@philalegal.org"
   advocate.organization_abbreviation = "PLA"
   advocate.organization    = 'Philadelphia Legal Assistance'
+  advocate.organizaton_careof = ''
   advocate.address.address = '718 Arch Street'
   advocate.address.unit    = 'Suite 300N'
   advocate.address.city    = 'Philadelphia'
   advocate.address.state   = 'PA'
   advocate.address.zip     = '19106'
+  unique_id = url_args.get('id', None)
+  is_eap = False
+  if unique_id is not None:
+    casefile.retrieve(unique_id)
+    if 'cemail' in casefile.fields and casefile.fields['cemail']:
+      user.email = casefile.fields['cemail']
+    if 'cstatus' in casefile.fields and casefile.fields['cstatus'] == 'Citizen':
+      user.is_citizen = True
+    if 'sfname' in casefile.fields and casefile.fields['sfname']:
+      advocate.name.first = casefile.fields['sfname']
+    if 'slname' in casefile.fields and casefile.fields['slname']:
+      advocate.name.last = casefile.fields['slname']
+    if 'semail' in casefile.fields and casefile.fields['semail']:
+      advocate.email = casefile.fields['semail']
+    if 'office_name' in casefile.fields and casefile.fields['office_name']:
+      if casefile.fields['office_name'] == 'EAP Penn':
+        advocate.organization = "the Penn Law Employment Advocacy Project"
+        form_recipient.organization = advocate.organization
+        advocate.organization_abbreviation = "Penn EAP"
+        advocate.organizaton_careof = "c/o Philadelphia Legal Assistance [NEWLINE]"
+        is_eap = True
+      elif casefile.fields['office_name'] == 'EAP Drexel':
+        advocate.organization = "the Drexel University School of Law Employment Advocacy Project"
+        form_recipient.organization = advocate.organization
+        advocate.organization_abbreviation = "Drexel EAP"
+        advocate.organizaton_careof = "c/o Philadelphia Legal Assistance [NEWLINE]"
+        is_eap = True
+      else:
+        advocate.organization = 'Philadelphia Legal Assistance'
+        advocate.organization_abbreviation = "PLA"
+      if 'cfname' in casefile.fields and casefile.fields['cfname']:
+        user.name.first = casefile.fields['cfname']
+      if 'clname' in casefile.fields and casefile.fields['clname']:
+        user.name.last = casefile.fields['clname']
+      if 'cemail' in casefile.fields and casefile.fields['cemail']:
+        user.email = casefile.fields['cemail']
+      if 'identification_number' in casefile.fields and casefile.fields['identification_number']:
+        other_form_recipient.email = casefile.fields['identification_number'] + '@pla.legalserver.org'
   form_type                = "Retainer Agreement and Appointment of Representative forms"
+  if is_eap:
+    advocate.title = "Non-Legal Representative"
+  else:
+    advocate.title = "Representative"
 ---
 mandatory: true
 code: |
-  the_signature = blank_signature
+  the_signature = empty_signature
   if splash_screen and agrees_to_sign_documents:
     del aor_content
     del retainer_content
@@ -93,15 +152,19 @@ under: |
 ---
 template: retainer_content
 content: |
-  [BOLDCENTER] YOUR AGREEMENT WITH [BR] PHILADELPHIA LEGAL ASSISTANCE
+  [BOLDCENTER] YOUR AGREEMENT WITH [BR] ${ advocate.organization.upper() }
 
   1.  You, ${ user }, and ${ advocate.organization } ("${ advocate.organization_abbreviation }") agree that ${ advocate.organization_abbreviation } will assist you with your claim for unemployment compensation.
   2.  ${ advocate.organization_abbreviation } will help you with this legal problem by providing advice and/or representation for your Unemployment Compensation Referee Hearing.
   3.  This agreement is for the above legal problem and the above legal services only. It does not cover any other legal problem. If you need our help with a different legal problem, or if you need additional assistance with the above legal problem, you must apply again. If you have a court case, ${ advocate.organization_abbreviation } will not represent you in the case, or in an appeal of the case, unless such legal services are specifically listed above.
   4.  This agreement is for ${ advocate.organization_abbreviation }'s assistance of you and nobody else.
-  5.  ***${ advocate }*** will assist you with your legal problem. If your legal assistant is a paralegal, an attorney will supervise the work of the paralegal. You might be assigned to another attorney or paralegal at ${ advocate.organization_abbreviation } without your approval. Other paralegals and attorneys at ${ advocate.organization_abbreviation } may also assist you.
+  % if is_eap:
+  5.  ***${ advocate }***, a law student advocate, will assist you with your legal problem. You might be assigned to another law student advocate without your approval. An attorney will supervise the work of the law student advocate assigned to your case.  Other law student advocates at ${ advocate.organization_abbreviation } may also assist you.
+  % else:
+  5.  ***${ advocate }*** will assist you with your legal problem.  You might be assigned to another attorney or paralegal at ${ advocate.organization_abbreviation } without your approval.  If your advocate is a paralegal, an attorney will supervise the work of the paralegal.  Other paralegals and attorneys at ${ advocate.organization_abbreviation } may also assist you.
   6.  **Fees:** ${ advocate.organization_abbreviation } is funded by the government to provide free legal assistance to low-income people. ${ advocate.organization_abbreviation } will not charge a fee for its legal services (before or after the assistance is finished).
   7.  In addition, you agree to give ${ advocate.organization_abbreviation } your right to receive attorney's fees. You agree to allow the court to pay attorney's fees directly to ${ advocate.organization_abbreviation }, rather than to you. This agreement is an "assignment of fees."
+  % endif
   8.  **Termination of Assistance:** ${ advocate.organization_abbreviation } will stop assisting you when it has completed the legal services it agreed to provide. ${ advocate.organization_abbreviation } may also stop assisting you if:
     * Your income goes up,
     * You do not cooperate,
@@ -131,12 +194,15 @@ content: |
     * ${ advocate.organization_abbreviation } will keep you informed about the status and developments in your case.
     * ${ advocate.organization_abbreviation } will respond promptly to any reasonable request you make for information about your case.
     * ${ advocate.organization_abbreviation } will provide you with competent legal assistance consistent with the Rules of Professional Conduct and the restrictions listed below.
+  % if not is_eap:
   13.  **Restrictions on assistance:** Because ${ advocate.organization_abbreviation } is funded by the government, there are certain things we cannot and will not do while assisting you. ${ advocate.organization_abbreviation } will not:
     * File or participate in any class action lawsuits.
     * Provide legal assistance to or on behalf of any ineligible aliens or incarcerated people.
     * Provide legal assistance in any criminal case, or in any public housing eviction case that involves drug activity.
     * Engage in legislative and administrative activities, advocacy training, public demonstrations, or grassroots organizing activities.
+  % endif
   14.  **Your personal information:** In order to help you with your case, we may need to give information about you and your case to other people. For example, we may need to contact the Department of Labor and Industry and talk to them about your case.
+  % if not is_eap:
   15.  **Consultation with other attorneys:** We may need to consult with other attorneys outside of ${ advocate.organization_abbreviation } in order you provide you with the best possible legal assistance.
   16.  Our funders may require us to give them information about you, including:
     * Your name and address.
@@ -149,11 +215,12 @@ content: |
     * A copy of this agreement.
   17.  We sometimes receive requests from researchers for statistical information about the people we help. When we respond to these requests, we will provide information about you and the work we did for you, but we will keep your identity a secret. However, if you have a court case and it is not a secret that we assisted you with the court case (for example, if we talked to a lawyer for an opposing party), then we may share with a researcher the fact that we worked on the court case.
   18.  *By signing this agreement, you are allowing ${ advocate.organization_abbreviation } to disclose information about you and your case as appropriate to assist you and to provide information to funders and researchers.* ${ advocate.organization_abbreviation } will only disclose your information to the extent permitted by the Rules of Professional Conduct.
+  % endif
   19.  **Improving UC**. We work closely with the Department of Labor and Industry on improving the functioning of the unemployment compensation system. We may provide your case as an example when working with the government.
   20.  **Your file:** While providing legal assistance, we will probably obtain documents or other materials belonging to you or relating to your legal problem. We keep those records in your file so that we are better able to assist you and, in some cases, to comply with professional guidelines.
   21.  It is our policy to keep case files for seven years after the case is closed. We may send case files to storage facilities outside of our offices. After the end of seven years, the file may be destroyed.
 
-  [BEGIN_TWOCOL] Client's signature: [NEWLINE] ${ the_signature } [NEWLINE] Date: ${ today() } [NEWLINE] Client: ${ user } [BREAK] Attorney's signature: [NEWLINE] ${ blank_signature } [NEWLINE] Date: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ [NEWLINE] Attorney: ${ advocate } [NEWLINE] ${ advocate.organization } [NEWLINE] ${ advocate.address } [END_TWOCOL]
+  [BEGIN_TWOCOL] Client's signature: [NEWLINE] ${ the_signature } [NEWLINE] Date: ${ today() } [NEWLINE] Client: ${ user } [BREAK] Legal Assistant's signature: [NEWLINE] ${ blank_signature } [NEWLINE] Date: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ [NEWLINE] Legal Assistant: ${ advocate } [NEWLINE] ${ capitalize(advocate.organization) } [NEWLINE] ${ advocate.organizaton_careof } ${ advocate.address } [END_TWOCOL]
   % if user.is_citizen:
   [PAGEBREAK]
   [BOLDCENTER] CITIZENSHIP ATTESTATION
@@ -170,16 +237,22 @@ template: aor_content
 content: |
   [CENTER] DEPARTMENT OF LABOR AND INDUSTRY [BR] UNEMPLOYMENT COMPENSATION BOARD OF REVIEW
 
-  [SKIPLINE]
-  
   [BOLDCENTER] Appointment of Representative
 
-  [SKIPLINE]
-  
   | In re: ${ user } (Claimant)
 
-  I hereby appoint **${ advocate }**, of ${ advocate.organization }, as my representative in my claim for unemployment compensation. I authorize the Unemployment Compensation Board of Review, the Referees' Office and the Unemployment Compensation Service Center to release any and all information or documents from my file or computer record that s/he requests.
+  [TAB] I hereby appoint **${ advocate }**, of ${ advocate.organization }, as my
+  % if advocate.organization.endswith("Employment Advocacy Project"):
+  non-legal
+  % endif
+  representative in my claim for unemployment compensation. I authorize the Unemployment Compensation Board of Review, the Referees' Office and the Unemployment Compensation Service Center to release any and all information or documents from my file or computer record that s/he requests.
 
+  % if advocate.organization.endswith("Employment Advocacy Project"):
+  [TAB] The Employment Advocacy Project provides law students to serve as non-legal representatives.  I hereby consent to be represented by law students and understand that these law students will be unable to provide legal advice during my representation, but have been trained by a licensed attorney to assist me with my claim for unemployment compensation.  I understand that attorneys at Philadelphia Legal Assistance supervise these students. 
+  % endif
+
+  [SKIPLINE]
+  
   | Claimaint's signature:
 
   ${ the_signature }
@@ -188,26 +261,54 @@ content: |
   | ${ user }, Claimant
 
   [SKIPLINE]
-  [SKIPLINE]
 
   **To be filled out by the representative:**
 
   I hereby accept this appointment.
 
-  | Representative's signature:
+  | ${ advocate.title }'s signature:
 
   ${ blank_signature }
 
   | Date: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-  | ${ advocate }, Representative
+  | ${ advocate }, ${ advocate.title }
 ---
 template: blank_signature
 content: |
   [SKIPLINE] \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ [SKIPLINE]
 ---
+template: empty_signature
+content: |
+  [SKIPLINE] \_\_\_[Your signature here]\_\_\_ [SKIPLINE]
+---
 template: real_signature
 content: |
   [SKIPLINE] ${ user.signature.show(width='2in') } [SKIPLINE]
+---
+interview help:
+  heading: What is a Retainer Agreement?
+  content: |
+    A "retainer agreement" is a document signed by a person receiving
+    legal assistance and the person providing legal assistance.  By
+    signing it, you agree that you understand what legal services you
+    will receive and will not receive.  You agree to keep in contact
+    with your legal assistant, and your legal assistant agrees to keep
+    in contact with you, until your case is closed.  It is important for
+    you and your legal assistant to have a good understanding of what to
+    expect from one another.
+---
+interview help:
+  heading: What is an Appointment of Representative form?
+  content: |
+    In order to help you with your unemployment compensation case, your
+    legal assistant will need to contact the Unemployment Compensation
+    Board of Review, the Referees' Office and the Unemployment
+    Compensation Service Center to get information about your case.
+    Those offices will not release information about your case unless
+    you allow them to do so.  By signing the Appointment of
+    Representative form, you are telling these offices that your legal
+    assistant is representing you in your case, and authorizing them to
+    give information about your case to your legal assistant.
 ---
 question: |
   Would you like copies of the ${ form_type } to be e-mailed to you?
