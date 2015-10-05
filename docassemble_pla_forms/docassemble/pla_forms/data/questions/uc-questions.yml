@@ -49,6 +49,8 @@ code: |
       user.email = casefile.fields['cemail']
     if 'cstatus' in casefile.fields and casefile.fields['cstatus'] == 'Citizen':
       user.is_citizen = True
+    if 'cstatus' in casefile.fields and casefile.fields['cstatus'] != 'Citizen':
+      user.is_citizen = False
     if 'sfname' in casefile.fields and casefile.fields['sfname']:
       advocate.name.first = casefile.fields['sfname']
     if 'slname' in casefile.fields and casefile.fields['slname']:
@@ -79,10 +81,11 @@ code: |
         user.email = casefile.fields['cemail']
       if 'identification_number' in casefile.fields and casefile.fields['identification_number']:
         other_form_recipient.email = casefile.fields['identification_number'] + '@pla.legalserver.org'
-  form_type                = "Retainer Agreement and Appointment of Representative forms"
   if is_eap:
+    form_type = "Citizenship Attestation and Appointment of Representative forms"
     advocate.title = "Non-Legal Representative"
   else:
+    form_type = "Retainer Agreement and Appointment of Representative forms"
     advocate.title = "Representative"
 ---
 mandatory: true
@@ -90,7 +93,10 @@ code: |
   the_signature = empty_signature
   if splash_screen and agrees_to_sign_documents:
     del aor_content
-    del retainer_content
+    if is_eap:
+      del attestation_content
+    else:
+      del retainer_content
     the_signature = real_signature
     if agrees_to_submit_documents:
       need(form_submitted)
@@ -103,27 +109,74 @@ yesno: agrees_to_sign_documents
 question: |
   Do you agree to sign these documents?
 subquestion: |
-  Please review the documents below to make sure you agree with the contents.  You can review each document by pressing "Preview" or by opening the PDF file.  If you agree to sign these documents, press "Yes," and you will be asked for your signature.
+  Please review the documents below to make sure you agree with the
+  contents.  You can review each document by pressing "Preview" or by
+  opening the PDF file.
+
+  % if is_eap:
+  % if user.is_citizen:
+  The first document is a "**Citizenship Attestation**," in which you are saying
+  that you are a citizen.
+  % else:
+  In the first document, "**Immigration Documentation**," you are saying that you will
+  provide documentation of your immigration status to your legal assistant.
+  % endif
+  Since we are funded by the federal government, we need to have this documention in
+  our records.
+  % else:
+  The first document is a "**Retainer Agreement**."  This is your agreement with your
+  legal assistant.  It describes what you can expect from your legal assistant and
+  what your legal assistant expects from you.
+  % endif
+
+  The second document is the "**Appointment of Representative Form**."
+  This form allows the Department of Labor and Industry to give your
+  legal assistant access to your unemployment compensation file.
+
+  For more information about these documents, click "Help," above.
+
+  If you agree to sign these documents, press "Yes," and you will be
+  asked for your signature.
+allow emailing: false
 attachments:
-  - name: Retainer Agreement
+  - name: ${ retainer_or_attestation }
     content: |
+      % if is_eap:
+      ${ attestation_content }
+      % else:
       ${ retainer_content }
-    filename: Retainer_Agreement_${ space_to_underscore(user) }
+      % endif
+    filename: ${ space_to_underscore(retainer_or_attestation + " " + str(user)) }
   - name: Appointment of Representative Form
     content: |
       ${ aor_content }
     filename: Appointment_of_Representative_${ space_to_underscore(user) }
+---
+code: |
+  if is_eap:
+    if user.is_citizen:
+      retainer_or_attestation = "Citizenship Attestation"
+    else:
+      retainer_or_attestation = "Immigration Documentation"
+  else:
+    retainer_or_attestation = "Retainer Agreement"
+  form_type = retainer_or_attestation + " and Appointment of Representative forms"
 ---
 yesno: agrees_to_submit_documents
 question: |
   Your signature has been added to the documents below.  Do you agree to submit these signed documents to ${ form_recipient.organization }?
 subquestion: |
   Please review the documents below to make sure you wish to submit them to ${ form_recipient.organization}.  You can review each document by pressing "Preview" or by opening the PDF file.  If you would like to submit the documents, press "Yes."  You will be given the opportunity to e-mail them to yourself.
+allow emailing: false
 attachments:
-  - name: Retainer Agreement
+  - name: ${ retainer_or_attestation }
     content: |
+      % if is_eap:
+      ${ attestation_content }
+      % else:
       ${ retainer_content }
-    filename: Retainer_Agreement_${ space_to_underscore(user) }
+      % endif
+    filename: ${ space_to_underscore(retainer_or_attestation + " " + str(user)) }
     variable_name: retainer_form
   - name: Appointment of Representative Form
     content: |
@@ -150,18 +203,42 @@ need: user_understands_how_to_use_signature_feature
 under: |
   ${ user.name }
 ---
+template: attestation_content
+content: |
+  % if user.is_citizen:
+  [BOLDCENTER] CITIZENSHIP ATTESTATION
+
+  [NOINDENTATION]
+  
+  I am a citizen of the United States.
+
+  % else:
+  [BOLDCENTER] IMMIGRATION DOCUMENTATION
+
+  [NOINDENTATION]
+
+  I will provide documentation of my immigration status to ${ advocate.organization }.
+  
+  % endif
+  [SKIPLINE]
+  
+  ${ the_signature }
+
+  | Name: ${ user }
+  | Date: ${ today() }
+---
 template: retainer_content
 content: |
   [BOLDCENTER] YOUR AGREEMENT WITH [BR] ${ advocate.organization.upper() }
 
   1.  You, ${ user }, and ${ advocate.organization } ("${ advocate.organization_abbreviation }") agree that ${ advocate.organization_abbreviation } will assist you with your claim for unemployment compensation.
   2.  ${ advocate.organization_abbreviation } will help you with this legal problem by providing advice and/or representation for your Unemployment Compensation Referee Hearing.
-  3.  This agreement is for the above legal problem and the above legal services only. It does not cover any other legal problem. If you need our help with a different legal problem, or if you need additional assistance with the above legal problem, you must apply again. If you have a court case, ${ advocate.organization_abbreviation } will not represent you in the case, or in an appeal of the case, unless such legal services are specifically listed above.
+  3.  This agreement is for the above legal problem and the above legal services only. It does not cover any other legal problem. If you need our help with a different legal problem, or if you need additional assistance with the above legal problem, you must apply again.
   4.  This agreement is for ${ advocate.organization_abbreviation }'s assistance of you and nobody else.
   % if is_eap:
   5.  ***${ advocate }***, a law student advocate, will assist you with your legal problem. You might be assigned to another law student advocate without your approval. An attorney will supervise the work of the law student advocate assigned to your case.  Other law student advocates at ${ advocate.organization_abbreviation } may also assist you.
   % else:
-  5.  ***${ advocate }*** will assist you with your legal problem.  You might be assigned to another attorney or paralegal at ${ advocate.organization_abbreviation } without your approval.  If your advocate is a paralegal, an attorney will supervise the work of the paralegal.  Other paralegals and attorneys at ${ advocate.organization_abbreviation } may also assist you.
+  5.  ***${ advocate }*** will assist you with your legal problem.  You might be assigned to another attorney or paralegal at ${ advocate.organization_abbreviation } without your approval.  If your legal assistant is a paralegal, an attorney will supervise the work of the paralegal.  Other paralegals and attorneys at ${ advocate.organization_abbreviation } may also assist you.
   6.  **Fees:** ${ advocate.organization_abbreviation } is funded by the government to provide free legal assistance to low-income people. ${ advocate.organization_abbreviation } will not charge a fee for its legal services (before or after the assistance is finished).
   7.  In addition, you agree to give ${ advocate.organization_abbreviation } your right to receive attorney's fees. You agree to allow the court to pay attorney's fees directly to ${ advocate.organization_abbreviation }, rather than to you. This agreement is an "assignment of fees."
   % endif
@@ -220,13 +297,17 @@ content: |
   20.  **Your file:** While providing legal assistance, we will probably obtain documents or other materials belonging to you or relating to your legal problem. We keep those records in your file so that we are better able to assist you and, in some cases, to comply with professional guidelines.
   21.  It is our policy to keep case files for seven years after the case is closed. We may send case files to storage facilities outside of our offices. After the end of seven years, the file may be destroyed.
 
-  [BEGIN_TWOCOL] Client's signature: [NEWLINE] ${ the_signature } [NEWLINE] Date: ${ today() } [NEWLINE] Client: ${ user } [BREAK] Legal Assistant's signature: [NEWLINE] ${ blank_signature } [NEWLINE] Date: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ [NEWLINE] Legal Assistant: ${ advocate } [NEWLINE] ${ capitalize(advocate.organization) } [NEWLINE] ${ advocate.organizaton_careof } ${ advocate.address } [END_TWOCOL]
+  [BEGIN_TWOCOL] Client's signature: [NEWLINE] [SKIPLINE] ${ the_signature } [NEWLINE] Date: ${ today() } [NEWLINE] Client: ${ user } [BREAK] Legal Assistant's signature: [NEWLINE] [SKIPLINE] ${ blank_signature } [NEWLINE] Date: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ [NEWLINE] Legal Assistant: ${ advocate } [NEWLINE] ${ capitalize(advocate.organization) } [NEWLINE] ${ advocate.organizaton_careof } ${ advocate.address } [END_TWOCOL]
   % if user.is_citizen:
   [PAGEBREAK]
   [BOLDCENTER] CITIZENSHIP ATTESTATION
 
+  [NOINDENTATION]
+  
   I am a citizen of the United States.
 
+  [SKIPLINE]
+  
   ${ the_signature }
 
   | Name: ${ user }
@@ -239,22 +320,24 @@ content: |
 
   [BOLDCENTER] Appointment of Representative
 
-  | In re: ${ user } (Claimant)
+  [FLUSHLEFT] In re: ${ user } (Claimant)
 
-  [TAB] I hereby appoint **${ advocate }**, of ${ advocate.organization }, as my
+  I hereby appoint **${ advocate }**, of ${ advocate.organization }, as my
   % if advocate.organization.endswith("Employment Advocacy Project"):
   non-legal
   % endif
   representative in my claim for unemployment compensation. I authorize the Unemployment Compensation Board of Review, the Referees' Office and the Unemployment Compensation Service Center to release any and all information or documents from my file or computer record that s/he requests.
 
   % if advocate.organization.endswith("Employment Advocacy Project"):
-  [TAB] The Employment Advocacy Project provides law students to serve as non-legal representatives.  I hereby consent to be represented by law students and understand that these law students will be unable to provide legal advice during my representation, but have been trained by a licensed attorney to assist me with my claim for unemployment compensation.  I understand that attorneys at Philadelphia Legal Assistance supervise these students. 
+  The Employment Advocacy Project provides law students to serve as non-legal representatives.  I hereby consent to be represented by law students and understand that these law students will be unable to provide legal advice during my representation, but have been trained by a licensed attorney to assist me with my claim for unemployment compensation.  I understand that attorneys at Philadelphia Legal Assistance supervise these students. 
   % endif
+
+  [NOINDENTATION] [SKIPLINE]
+  
+  Claimant's signature:
 
   [SKIPLINE]
   
-  | Claimaint's signature:
-
   ${ the_signature }
 
   | Date: ${ today() }
@@ -266,28 +349,28 @@ content: |
 
   I hereby accept this appointment.
 
-  | ${ advocate.title }'s signature:
+  ${ advocate.title }'s signature:
 
+  [SKIPLINE]
+  
   ${ blank_signature }
 
   | Date: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
   | ${ advocate }, ${ advocate.title }
 ---
-template: blank_signature
-content: |
-  [SKIPLINE] \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ [SKIPLINE]
----
-template: empty_signature
-content: |
-  [SKIPLINE] \_\_\_[Your signature here]\_\_\_ [SKIPLINE]
----
 template: real_signature
 content: |
-  [SKIPLINE] ${ user.signature.show(width='2in') } [SKIPLINE]
+  ${ user.signature.show(width='2in') }
 ---
 interview help:
-  heading: What is a Retainer Agreement?
+  heading: What is a ${ retainer_or_attestation }?
   content: |
+    % if is_eap:
+    If you are a citizen, we need a signed document from you, a
+    "Citizenship Attestation," in which you say that you are a
+    citizen.  If you are an immigrant, we do not need your signature,
+    but we need a copy of your immigration documentation.
+    % else:
     A "retainer agreement" is a document signed by a person receiving
     legal assistance and the person providing legal assistance.  By
     signing it, you agree that you understand what legal services you
@@ -296,6 +379,7 @@ interview help:
     in contact with you, until your case is closed.  It is important for
     you and your legal assistant to have a good understanding of what to
     expect from one another.
+    % endif
 ---
 interview help:
   heading: What is an Appointment of Representative form?

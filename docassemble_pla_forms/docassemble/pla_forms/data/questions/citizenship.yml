@@ -131,11 +131,14 @@ question: |
 subquestion: |
   The citizenship attestation is below.  Please review to make sure it is ok to submit to ${ form_recipient.organization}.  You can review the document by pressing "Preview" or by opening the PDF file.  If you would like to submit the document, press "Yes."  You will be given the opportunity to e-mail the signed document to yourself.
 yesno: ok_to_submit_attestation_form
+allow emailing: false
 attachments:
   - name: Citizenship attestation of ${ user }
     content: |
       [BOLDCENTER] CITIZENSHIP ATTESTATION
 
+      [NOINDENTATION]
+      
       I am a citizen of the United States.
 
       [SKIPLINE]
@@ -159,16 +162,19 @@ question: |
   Would you like to submit this documentation?
 subquestion: |
   Your documentation of immigration status is below.  Please review to make sure it is ok to submit to ${ form_recipient.organization }.  You can review the document by pressing "Preview" or by opening the PDF file.  If you would like to submit the document, press "Yes."  You will have the opportunity to e-mail a copy to yourself.
+allow emailing: false
 attachments:
   - name: Immigration documentation for ${ user }
     content: |
       [BOLDCENTER] DOCUMENTATION OF IMMIGRATION STATUS
+      
+      [NOINDENTATION]
 
       Name: ${ user }
 
       Date: ${ today() }
 
-      ${ immigration_documentation.show() }
+      ${ immigration_documentation.show(width='full') }
     filename: Immigration_documentation_of_${ space_to_underscore(user) }
     variable_name: form_attachment
 ---
@@ -176,5 +182,7 @@ question: |
   Please upload your immigration documentation.
 fields:
   - Document: immigration_documentation
-    datatype: file
+    datatype: files
+help: |
+  If you are using a mobile phone, you can take pictures of your immigration documents.  You can select more than one image or file.
 ...
