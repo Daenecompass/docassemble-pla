@@ -111,35 +111,30 @@ question: |
 subquestion: |
   Please review the documents below to make sure you agree with the
   contents.  You can review each document by pressing "Preview" or by
-  opening the PDF file.
-
-  % if is_eap:
-  % if user.is_citizen:
-  The first document is a "**Citizenship Attestation**," in which you are saying
-  that you are a citizen.
-  % else:
-  In the first document, "**Immigration Documentation**," you are saying that you will
-  provide documentation of your immigration status to your legal assistant.
-  % endif
-  Since we are funded by the federal government, we need to have this documention in
-  our records.
-  % else:
-  The first document is a "**Retainer Agreement**."  This is your agreement with your
-  legal assistant.  It describes what you can expect from your legal assistant and
-  what your legal assistant expects from you.
-  % endif
-
-  The second document is the "**Appointment of Representative Form**."
-  This form allows the Department of Labor and Industry to give your
-  legal assistant access to your unemployment compensation file.
-
-  For more information about these documents, click "Help," above.
+  opening the PDF file.  For more information about why we need these
+  documents, click "Help," above.
 
   If you agree to sign these documents, press "Yes," and you will be
   asked for your signature.
 allow emailing: false
 attachments:
   - name: ${ retainer_or_attestation }
+    description: |
+        % if is_eap:
+        % if user.is_citizen:
+        By signing this document, you are saying that you are a citizen
+        of the United States.
+        % else:
+        By signing this document, you are saying that you will provide
+        documentation of your immigration status to your legal assistant.
+        % endif
+        Since we are funded by the federal government, we need to have
+        this documention in our records.
+        % else:
+        This is your agreement with your legal assistant.  It describes
+        what you can expect from your legal assistant and what your legal
+        assistant can expect from you.
+        % endif
     content: |
       % if is_eap:
       ${ attestation_content }
@@ -148,6 +143,9 @@ attachments:
       % endif
     filename: ${ space_to_underscore(retainer_or_attestation + " " + str(user)) }
   - name: Appointment of Representative Form
+    description: |
+      This form allows the Department of Labor and Industry to give your
+      legal assistant access to your unemployment compensation file.
     content: |
       ${ aor_content }
     filename: Appointment_of_Representative_${ space_to_underscore(user) }
@@ -164,9 +162,16 @@ code: |
 ---
 yesno: agrees_to_submit_documents
 question: |
-  Your signature has been added to the documents below.  Do you agree to submit these signed documents to ${ form_recipient.organization }?
+  Your signature has been added to the documents below.  Do you agree
+  to submit these signed documents to ${ form_recipient.organization }?
 subquestion: |
-  Please review the documents below to make sure you wish to submit them to ${ form_recipient.organization}.  You can review each document by pressing "Preview" or by opening the PDF file.  If you would like to submit the documents, press "Yes."  You will be given the opportunity to e-mail them to yourself.
+  Please review the documents below to make sure you wish to submit
+  them to ${ form_recipient.organization}.  You can review each
+  document by pressing "Preview" or by opening the PDF file.
+
+  If you would like to submit the documents, press "Yes."
+
+  You will be given the opportunity to e-mail them to yourself.
 allow emailing: false
 attachments:
   - name: ${ retainer_or_attestation }
