@@ -1,0 +1,364 @@
+---
+metadata:
+  description: |
+    Philadelphia Legal Assistance Needs Assessment 2015
+  authors:
+    - name: Jonathan Pyle
+      organization: Philadelphia Legal Assistance
+  revision_date: 2015-10-15
+---
+interview help:
+  heading: What is the purpose of this survey?
+  content: |
+    Every five years, Philadelphia Legal Assistance conducts a “needs
+    assessment.”  We survey applicants, clients, members of our board,
+    and community organizations.  We ask them: what are the most
+    significant civil (non-criminal) legal needs in Philadelphia’s
+    neighborhoods?  What are the most significant problems affecting
+    our client community?  We will use the information we gather to
+    make decisions about how to use our limited resources.
+
+    We would appreciate it very much if you could fill out this short
+    survey in order to help us with our 2015 needs assessment.
+
+    This survey is anonymous and it will not affect the services you
+    receive.
+---
+include:
+  - docassemble.pla_forms:data/questions/basic-questions.yml
+---
+modules:
+  - docassemble.pla_forms.objects
+---
+mandatory: true
+need:
+  - legalproblem1
+  - problem1
+  - otherlegalproblem
+  - otherproblem
+sets: done_with_survey
+question: Thank you!
+subquestion: |
+  Thank you for completing the survey.
+
+  Your answers are very helpful to us.
+buttons:
+  - Exit: exit
+---
+question: |
+  Are there any other legal issues that are significant in your community?
+subquestion: |
+  If there are any other non-criminal legal issues that are significant in
+  your community, which we did not mention, you can describe them here.
+
+  If not, press Continue.
+fields:
+  - Other Legal Problems: otherlegalproblem
+    datatype: area
+    required: false
+---
+question: |
+  Are there any other problems that are significant in your community?
+subquestion: |
+  If there are any other problems that are significant in your community,
+  which we did not mention, please list them here.
+
+  If not, press Continue.
+fields:
+  - Other Legal Problems: otherlegalproblem
+    datatype: area
+    required: false
+---
+question: Significant legal issues in your community
+subquestion: |
+  Please select **no more than five** legal issues you think are most
+  significant in your community.
+fields:
+  - heading: Income and Benefits
+  - Personal income tax problems: legalproblem1
+    datatype: yesno
+  - Getting and keeping cash assistance: legalproblem2
+    datatype: yesno
+  - Getting and keeping food stamps: legalproblem3
+    datatype: yesno
+  - Getting and keeping Social Security Disability and/or SSI benefits: legalproblem4
+    datatype: yesno
+  - heading: Housing
+  - Eviction from your rental property: legalproblem5
+    datatype: yesno
+  - Poor housing condition in rental property: legalproblem6
+    datatype: yesno
+  - Problems with the Philadelphia Housing Authority: legalproblem7
+    datatype: yesno
+  - Mortgage delinquency or foreclosure: legalproblem8
+    datatype: yesno
+  - Real estate tax delinquency or foreclosure: legalproblem9
+    datatype: yesno
+  - Getting on the deed to a house: legalproblem10
+    datatype: yesno
+  - Problems with the purchase of real estate: legalproblem11
+    datatype: yesno
+  - Housing discrimination: legalproblem12
+    datatype: yesno
+  - Removing someone from your property: legalproblem13
+    datatype: yesno
+  - Blighted / abandoned property: legalproblem14
+    datatype: yesno
+  - heading: Family
+  - Divorce: legalproblem15
+    datatype: yesno
+  - Child abuse / neglect: legalproblem16
+    datatype: yesno
+  - Domestic Violence: legalproblem17
+    datatype: yesno
+  - Child custody / visitation: legalproblem18
+    datatype: yesno
+  - Obtaining an order for child/spousal support: legalproblem19
+    datatype: yesno
+  - Enforcing an order for child/spousal support: legalproblem20
+    datatype: yesno
+  - Defending against child/spousal support claims: legalproblem21
+    datatype: yesno
+  - Adoption / termination of parental rights: legalproblem22
+    datatype: yesno
+  - Legal responsibility for an adult (guardianship): legalproblem23
+    datatype: yesno
+  - heading: Money and credit
+  - Bankruptcy: legalproblem24
+    datatype: yesno
+  - Identity theft: legalproblem25
+    datatype: yesno
+  - Credit card collection: legalproblem26
+    datatype: yesno
+  - Automobile loans: legalproblem27
+    datatype: yesno
+  - Student loans: legalproblem28
+    datatype: yesno
+  - Very old judgments against you: legalproblem29
+    datatype: yesno
+  - Trade school fraud: legalproblem30
+    datatype: yesno
+  - Rent-to-own agreements: legalproblem31
+    datatype: yesno
+  - Sales contracts: legalproblem32
+    datatype: yesno
+  - Garnishing of wages: legalproblem33
+    datatype: yesno
+  - Harassment by collection agencies: legalproblem34
+    datatype: yesno
+  - Unfair business practices / predatory lending: legalproblem35
+    datatype: yesno
+  - heading: Employment
+  - Unemployment compensation: legalproblem36
+    datatype: yesno
+  - Receiving pay from a job: legalproblem37
+    datatype: yesno
+  - Denied employment because of criminal records: legalproblem38
+    datatype: yesno
+  - Wrongful discharge from employment: legalproblem39
+    datatype: yesno
+  - Employment discrimination: legalproblem40
+    datatype: yesno
+  - Pension benefits: legalproblem41
+    datatype: yesno
+  - Unfair labor practices: legalproblem42
+    datatype: yesno
+  - Unsafe working conditions: legalproblem43
+    datatype: yesno
+  - Civil service problems: legalproblem44
+    datatype: yesno
+  - heading: Health
+  - Medical Assistance, Medicaid, or Medicare: legalproblem45
+    datatype: yesno
+  - Getting and keeping private health insurance: legalproblem46
+    datatype: yesno
+  - Children’s Health Insurance Program (CHIP): legalproblem47
+    datatype: yesno
+  - Affordable Care Act: legalproblem48
+    datatype: yesno
+  - Nursing home care: legalproblem49
+    datatype: yesno
+  - Access to home health aides: legalproblem50
+    datatype: yesno
+  - heading: Utilities
+  - Preventing utility shutoffs: legalproblem51
+    datatype: yesno
+  - Resolving utility billing problems: legalproblem52
+    datatype: yesno
+  - Telephone problems: legalproblem53
+    datatype: yesno
+  - Internet access: legalproblem54
+    datatype: yesno
+  - heading: Rights
+  - Rights of the disabled: legalproblem55
+    datatype: yesno
+  - LGBT rights: legalproblem56
+    datatype: yesno
+  - Rights of non-English speakers: legalproblem57
+    datatype: yesno
+  - Police misconduct: legalproblem58
+    datatype: yesno
+  - Elder abuse: legalproblem59
+    datatype: yesno
+  - heading: Other
+  - Veterans’ issues: legalproblem60
+    datatype: yesno
+  - Driver’s license issues: legalproblem61
+    datatype: yesno
+  - Name change: legalproblem62
+    datatype: yesno
+  - Immigration: legalproblem63
+    datatype: yesno
+  - Incorporation of business: legalproblem64
+    datatype: yesno
+  - Incorporation of non-profit: legalproblem65
+    datatype: yesno
+  - Bench warrants: legalproblem66
+    datatype: yesno
+  - Prison problems: legalproblem67
+    datatype: yesno
+  - Special education: legalproblem68
+    datatype: yesno
+  - School discipline: legalproblem69
+    datatype: yesno
+---
+question: |
+  Significant problems in your community
+subquestion: |
+  Please select **no more than five** legal issues you think are most
+  significant in your community.
+fields:
+  - Not having any health insurance: problem1
+    datatype: yesno
+  - Health insurance too expensive: problem2
+    datatype: yesno
+  - Lack of access to healthy food: problem3
+    datatype: yesno
+  - Not enough homeless shelters: problem4
+    datatype: yesno
+  - Not enough soup kitchens: problem5
+    datatype: yesno
+  - Lack of affordable housing: problem6
+    datatype: yesno
+  - Domestic violence: problem7
+    datatype: yesno
+  - Gentrification: problem8
+    datatype: yesno
+  - Predatory lenders: problem9
+    datatype: yesno
+  - Abandoned property / empty lots: problem10
+    datatype: yesno
+  - Lack of access to financial services (banks, loans): problem11
+    datatype: yesno
+  - Youth unemployment: problem12
+    datatype: yesno
+  - Adult unemployment: problem13
+    datatype: yesno
+  - Lack of support for youth in foster system who turn 18: problem14
+    datatype: yesno
+  - Employers do not provide enough sick days: problem15
+    datatype: yesno
+  - Unhealthy environment: problem16
+    datatype: yesno
+  - Chronic health problems (asthma, diabetes, obesity): problem17
+    datatype: yesno
+  - Violence: problem18
+    datatype: yesno
+  - Lack of affordable child care: problem19
+    datatype: yesno
+  - Not enough jobs: problem20
+    datatype: yesno
+  - Jobs do not pay enough: problem21
+    datatype: yesno
+  - Guns: problem22
+    datatype: yesno
+  - Crime: problem23
+    datatype: yesno
+  - Immoral behavior: problem24
+    datatype: yesno
+  - Corruption of public officials: problem25
+    datatype: yesno
+  - Lack of knowledge about how to access services: problem26
+    datatype: yesno
+  - Discrimination: problem27
+    datatype: yesno
+  - Mental health issues (depression, bipolar, etc.): problem28
+    datatype: yesno
+  - Too difficult to escape burden of debt: problem29
+    datatype: yesno
+  - People who owe child support don’t pay it: problem30
+    datatype: yesno
+  - Too difficult to pay child support while supporting yourself: problem31
+    datatype: yesno
+  - Too easy for banks to foreclose on homes: problem32
+    datatype: yesno
+  - Homes stay in foreclosure for too long: problem33
+    datatype: yesno
+  - Children being abused / neglected: problem34
+    datatype: yesno
+  - Bad landlords: problem35
+    datatype: yesno
+  - Drugs: problem36
+    datatype: yesno
+  - Houses being neglected: problem37
+    datatype: yesno
+  - Insufficient policing: problem38
+    datatype: yesno
+  - Police misconduct: problem39
+    datatype: yesno
+  - Public areas not well maintained (trash, unsafe sidewalks, potholes in roads, etc.): problem40
+    datatype: yesno
+  - Noise: problem41
+    datatype: yesno
+  - Unfair criminal charges: problem42
+    datatype: yesno
+  - Unfair job termination: problem43
+    datatype: yesno
+  - Real estate taxes too high: problem44
+    datatype: yesno
+  - Income taxes too high: problem45
+    datatype: yesno
+  - Liens on property: problem46
+    datatype: yesno
+  - Lack of community centers: problem47
+    datatype: yesno
+  - Lack of after-school programs: problem48
+    datatype: yesno
+  - Not enough opportunities for peaceful conflict resolution: problem49
+    datatype: yesno
+  - Insufficient government services: problem50
+    datatype: yesno
+  - Unsafe drivers: problem51
+    datatype: yesno
+  - Poor public transportation services: problem52
+    datatype: yesno
+  - Transportation too expensive: problem53
+    datatype: yesno
+  - Not enough community organizations: problem54
+    datatype: yesno
+  - Lack of support for pregnant and parenting teens: problem55
+    datatype: yesno
+  - Low quality of schools: problem56
+    datatype: yesno
+  - Lack of economic opportunity: problem57
+    datatype: yesno
+  - Too much development: problem58
+    datatype: yesno
+  - Not enough development: problem59
+    datatype: yesno
+  - Too difficult to move from one residence to another: problem60
+    datatype: yesno
+  - People change residences too often: problem61
+    datatype: yesno
+  - Too easy for landlords to evict people: problem62
+    datatype: yesno
+  - Too difficult for landlords to evict people: problem63
+    datatype: yesno
+  - Too difficult to shield children from bad influences: problem64
+    datatype: yesno
+  - Language barriers to accessing services: problem65
+    datatype: yesno
+  - Waiting list for public housing is too long: problem66
+    datatype: yesno
+  - High school dropout rate too high: problem67
+    datatype: yesno

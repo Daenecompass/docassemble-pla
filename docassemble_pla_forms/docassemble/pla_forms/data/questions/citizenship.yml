@@ -53,9 +53,9 @@ code: |
   if unique_id is not None:
     casefile.retrieve(unique_id)
     if 'cfname' in casefile.fields and casefile.fields['cfname']:
-      user.name.first = casefile.fields['cfname']
+      client.name.first = casefile.fields['cfname']
     if 'clname' in casefile.fields and casefile.fields['clname']:
-      user.name.last = casefile.fields['clname']
+      client.name.last = casefile.fields['clname']
     if 'sfname' in casefile.fields and casefile.fields['sfname']:
       advocate.name.first = casefile.fields['sfname']
     if 'slname' in casefile.fields and casefile.fields['slname']:
@@ -69,9 +69,9 @@ code: |
 ---
 mandatory: True
 code: |
-  if user.is_citizen:
+  if client.is_citizen:
     form_type = "citizenship attestation"
-    if user_is_willing_to_sign_citizenship_attestation and user.signature_verified and ok_to_submit_attestation_form:
+    if user_is_willing_to_sign_citizenship_attestation and client.signature_verified and ok_to_submit_attestation_form:
       need(form_submitted)
     else:
       need(form_not_appropriate)
@@ -93,10 +93,10 @@ yesno: user_wants_copy_emailed
 ---
 question: |
   I am a citizen of the United States.
-signature: user.signature
+signature: client.signature
 need: user_understands_how_to_use_signature_feature
 under: |
-  ${ user.name }
+  ${ client.name }
 ---
 sets: success_sending_form
 code: |
@@ -109,7 +109,7 @@ code: |
     to_recipients.append(advocate)
     to_recipients.append(form_recipient)
     to_recipients.append(other_form_recipient)
-  success_sending_form = send_email(to=to_recipients, bcc=bcc_recipients, body="The " + form_type + " for " + str(user.name) + " is attached.", subject=capitalize(form_type) + " for " + str(user.name), attachments=[form_attachment])
+  success_sending_form = send_email(to=to_recipients, bcc=bcc_recipients, html="The " + form_type + " for " + str(client.name) + " is attached.", body="The " + form_type + " for " + str(client.name) + " is attached.", subject=capitalize(form_type) + " for " + str(client.name), attachments=[form_attachment])
 ---
 question: |
   Are you willing to electronically sign a statement saying that you are a citizen?
@@ -142,7 +142,7 @@ attachments:
       I am a citizen of the United States.
 
       [SKIPLINE]
-      ${ user.signature.show(width='2in') }
+      ${ client.signature.show(width='2in') }
 
       Name: ${ user }
 

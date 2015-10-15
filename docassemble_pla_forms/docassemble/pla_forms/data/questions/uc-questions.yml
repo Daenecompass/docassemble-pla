@@ -199,7 +199,13 @@ code: |
   else:
     to_recipients.append(advocate)
     to_recipients.append(form_recipient)
-  success_sending_form = send_email(to=to_recipients, bcc=bcc_recipients, body="The " + form_type + " for " + str(user.name) + " are attached.", subject=capitalize(form_type) + " for " + str(user.name), attachments=[retainer_form, aor_form])
+  success_sending_form = send_email(to=to_recipients, bcc=bcc_recipients, body=email_attaching_forms.content, html=email_attaching_forms.content, subject=email_attaching_forms.subject, attachments=[retainer_form, aor_form])
+---
+template: email_attaching_forms
+subject: |
+  ${ capitalize(form_type) } for ${ user }
+content: |
+  The ${ form_type } for ${ user } are attached.
 ---
 question: |
   Please sign your name below.
