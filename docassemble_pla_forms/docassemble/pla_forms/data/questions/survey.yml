@@ -7,12 +7,27 @@ metadata:
       organization: Philadelphia Legal Assistance
   revision_date: 2015-10-15
 ---
+include:
+  - docassemble.pla_forms:data/questions/basic-questions.yml
+---
+image sets:
+  pla:
+    images:
+      pla_logo: PLA-logo-200.jpg
+---
+modules:
+  - docassemble.pla_forms.objects
+---
+objects:
+  - storage: Storage
+---
 interview help:
   heading: What is the purpose of this survey?
   content: |
-    Every five years, Philadelphia Legal Assistance conducts a “needs
-    assessment.”  We survey applicants, clients, members of our board,
-    and community organizations.  We ask them: what are the most
+    Every five years, [Philadelphia Legal
+    Assistance](http://philalegal.org) conducts a “needs assessment.”
+    We survey applicants, clients, staff, members of our board, and
+    community organizations.  We ask them: what are the most
     significant civil (non-criminal) legal needs in Philadelphia’s
     neighborhoods?  What are the most significant problems affecting
     our client community?  We will use the information we gather to
@@ -20,37 +35,72 @@ interview help:
 
     We would appreciate it very much if you could fill out this short
     survey in order to help us with our 2015 needs assessment.
-
+    
+    % if user_type == 'client':
     This survey is anonymous and it will not affect the services you
-    receive.
+    receive from [Philadelphia Legal Assistance](http://philalegal.org).
+    % endif
 ---
-include:
-  - docassemble.pla_forms:data/questions/basic-questions.yml
----
-modules:
-  - docassemble.pla_forms.objects
----
-mandatory: true
-need:
-  - legalproblem1
-  - problem1
-  - otherlegalproblem
-  - otherproblem
-sets: done_with_survey
-question: Thank you!
+field: welcome_screen
+question: |
+  Philadelphia Legal Assistance Needs Assessment Survey of 2015
+decoration: pla_logo
 subquestion: |
-  Thank you for completing the survey.
+  Thank you for taking our needs assessment survey!
 
-  Your answers are very helpful to us.
-buttons:
-  - Exit: exit
+  % if user_type not in ['board', 'staff']:
+  As you may know, [Philadelphia Legal Assistance] is a non-profit
+  legal services organization that, along with our sister
+  organization, [CLS], provides legal advice and representation in
+  civil legal matters to low-income residents of Philadelphia.
+  % endif
+  
+  We are conducting this survey because we want to know what *you*
+  think about the kinds of cases [PLA] should take and what kinds of
+  broad-based advocacy efforts we should pursue.  Since we have
+  limited resources, we cannot do everything; we have to set
+  priorities, and we want to set priorities with *your* input.
+
+  We are surveying applicants, clients, staff, members of our
+  [board](http://philalegal.org/board), and community organizations.
+  We are asking:
+
+  * What are the most significant [civil] (non-criminal)
+  legal needs in Philadelphia’s neighborhoods?
+
+  * What are the most significant problems affecting the communities
+  where our clients live?
+
+  We will use the information we gather to make decisions about how to
+  use our limited resources.
+
+  This survey is completely anonymous; we will not know who provided
+  what answers.
+
+  Press **Continue** to get started.
+
+  [civil]: http://litigation.findlaw.com/filing-a-lawsuit/civil-cases-vs-criminal-cases-key-differences.html
+  [Philadelphia Legal Assistance]: http://philalegal.org
+  [PLA]: http://philalegal.org
+  [CLS]: http://clsphila.org
 ---
 question: |
+  % if user_type == 'client':
   Are there any other legal issues that are significant in your community?
+  % else:
+  Are there any other legal issues that you think are significant in
+  Philadelphia's low-income communities?
+  % endif
 subquestion: |
+  % if user_type == 'client':
   If there are any other non-criminal legal issues that are significant in
   your community, which we did not mention, you can describe them here.
-
+  % else:
+  If there are any other civil legal issues that you think are significant in
+  Philadelphia's low-income communities, but were not mentioned in the list,
+  you can describe them here.
+  % endif
+  
   If not, press Continue.
 fields:
   - Other Legal Problems: otherlegalproblem
@@ -58,23 +108,48 @@ fields:
     required: false
 ---
 question: |
+  % if user_type == 'client':
   Are there any other significant problems in your community?
+  % else:
+  Do you think there are other significant problems in Philadelphia's
+  low-income communities?
+  % endif
 subquestion: |
+  % if user_type == 'client':
   If there are any other significant problems in your community, which
-  we did not mention in the list of problems but that you would rank among
+  we did not mention in the list of problems, but that you would rank among
   the top five most significant problems in your community, please list
   them here.
-
+  % else:
+  If there are any other problems (not mentioned in the list) that you think
+  are among the top five most significant problems facing Philadelphia's
+  low-income communities, please describe those problems here.
+  % endif
+  
   If not, press Continue.
 fields:
-  - Other Legal Problems: otherproblem
+  - Other Problems: otherproblem
     datatype: area
     required: false
 ---
-question: Significant legal issues in your community
+question: |
+  % if user_type == 'client':
+  What are the most significant legal issues in your community?
+  % else:
+  What do you think are the most significant legal issues in Philadelphia's
+  low-income communities?
+  % endif
 subquestion: |
-  Please select **no more than five** legal issues you think are most
-  significant in your community.
+  % if user_type == 'client':
+  Please review the list below and select **no more than five** legal issues
+  you think are most significant in your community.
+  % else:
+  Please review the list below and select **no more than five** legal issues
+  you think are most significant in Philadelphia's low-income communities.
+  % endif
+
+  When you are done, please press the **Continue** button at the bottom of the
+  page.
 fields:
   - heading: Income and Benefits
   - Personal income tax problems: legalproblem1
@@ -219,22 +294,79 @@ fields:
     datatype: yesno
   - Prison problems: legalproblem67
     datatype: yesno
-  - Special education: legalproblem68
+  - Special education / school discipline: legalproblem68
     datatype: yesno
-  - School discipline: legalproblem69
+  - Lawsuits (e.g., auto accident defense): legalproblem69
+    datatype: yesno
+  - Wills/powers of attorney/advance directives: legalproblem70
     datatype: yesno
   - report_number_of_checkboxes_selected: |
+      <h4>Summary of your answers</h4>
       <span class="checkbox_count" data-min="0" data-max="0">You have not selected any legal issues yet.  Please select 5 legal issues before pressing Continue.</span>
-      <span class="checkbox_count" data-min="1" data-max="1">You have selected 1 legal issue so far.  You may select up to 5 legal issues before pressing Continue.</span>
-      <span class="checkbox_count" data-min="2" data-max="4">You have selected <span class="checkbox_count_number"></span> legal issues so far.  You may select up to 5 legal issues before pressing Continue.</span>
-      <span class="checkbox_count" data-min="5" data-max="5">You have selected 5 legal issues.  Thanks!  Please press Continue.</span>
-      <span class="checkbox_count" data-min="6" data-max="100">You have selected <span class="checkbox_count_number"></span> legal issues.  Please select <strong>no more than 5 legal issues</strong>.  Please deselect some of the legal issues you have selected before pressing Continue.</span>
+      <span class="checkbox_count" data-min="1" data-max="1">You have selected <strong>1</strong> legal issue so far.  You may select up to 5 legal issues before pressing Continue.</span>
+      <span class="checkbox_count" data-min="2" data-max="4">You have selected <strong><span class="checkbox_count_number"></span></strong> legal issues so far.  You may select up to 5 legal issues before pressing Continue.</span>
+      <span class="checkbox_count" data-min="5" data-max="5">You have selected <strong>5</strong> legal issues.  Thanks!  Please press Continue.</span>
+      <span class="checkbox_count" data-min="6" data-max="100">You have selected <strong><span class="checkbox_count_number"></span></strong> legal issues.  Please select <strong>no more than 5 legal issues</strong>.  Please deselect some of the legal issues you have selected before pressing Continue.</span>
 ---
 question: |
-  Significant problems in your community
+  % if user_type == 'client':
+  What are the most significant problems in your community?
+  % else:
+  What do you think are the most significant problems in Philadelphia's 
+  low-income communities?
+  % endif
 subquestion: |
-  Please select **no more than five** legal issues you think are most
-  significant in your community.
+  % if user_type == 'client':
+  This question is broader than the last one -- it does not focus on
+  specific legal issues, but on general problems you think are significant
+  in your community.
+
+  Please review the list below and select **no more than five** problems 
+  that you think are the most significant problems in your community today.
+  % else:
+  This question is broader than the last one -- it does not focus on
+  specific legal issues, but on general problems you think are significant
+  in the communities where PLA's clients live.
+
+  Please review the list below and select **no more than five** problems
+  that you think are the most significant problems facing Philadelphia's
+  low-income communities today.
+  % endif
+
+  When you are done, please press the **Continue** button at the bottom of the
+  page.
+help: |
+  We are asking this question because every advocate at [Philadelphia
+  Legal Assistance] spends some part of his or her time engaged in
+  activities that do not involve representing low-income clients.  Our
+  advocates serve on city-wide task forces to address particular
+  issues, such as housing security, economic development, hoarding,
+  and other issues.  We also represent non-profit groups such as the
+  [Philadelphia Unemployment Project], whose membership primarily consists
+  of low-income people.
+
+  We do these activities because the mission of legal services is not
+  only to provide legal services to low-income individuals, but to use
+  the power of lawyers and the law to most effectively advance the
+  interests of low-income people as a whole.
+
+  Because of restrictions on our funding, [PLA] cannot lobby City
+  Council, the state or federal legislatures, or government agencies.
+  Nevertheless, we are able to, and do, engage in many types of
+  activities that have a systemic impact.
+
+  Given that there are so many things that our advocates could do with
+  do with their limited time, what types of issues should we
+  prioritize?
+
+  Our [Board of Directors] sets priorities for [PLA] in the use of our
+  resources, and reconsiders these priorities on an annual basis.  The
+  board would like your input on what those priorities should be.
+
+  [Board of Directors]: http://philalegal.org/board
+  [Philadelphia Legal Assistance]: http://philalegal.org
+  [PLA]: http://philalegal.org
+  [Philadelphia Unemployment Project]: http://philaup.org
 fields:
   - Not having any health insurance: problem1
     datatype: yesno
@@ -371,8 +503,154 @@ fields:
   - High school dropout rate too high: problem67
     datatype: yesno
   - report_number_of_checkboxes_selected: |
+      <h4>Summary of your answers</h4>
       <span class="checkbox_count" data-min="0" data-max="0">You have not selected any problems yet.  Please select 5 problems before pressing Continue.</span>
-      <span class="checkbox_count" data-min="1" data-max="1">You have selected 1 problem so far.  You may select up to 5 problems before pressing Continue.</span>
-      <span class="checkbox_count" data-min="2" data-max="4">You have selected <span class="checkbox_count_number"></span> problems so far.  You may select up to 5 problems before pressing Continue.</span>
-      <span class="checkbox_count" data-min="5" data-max="5">You have selected 5 problems.  Thanks!  Please press Continue.</span>
-      <span class="checkbox_count" data-min="6" data-max="100">You have selected <span class="checkbox_count_number"></span> problems.  Please select <strong>no more than 5 problems</strong>.  Please deselect some of the problems you have selected before pressing Continue.</span>
+      <span class="checkbox_count" data-min="1" data-max="1">You have selected <strong>1</strong> problem so far.  You may select up to 5 problems before pressing Continue.</span>
+      <span class="checkbox_count" data-min="2" data-max="4">You have selected <strong><span class="checkbox_count_number"></span></strong> problems so far.  You may select up to 5 problems before pressing Continue.</span>
+      <span class="checkbox_count" data-min="5" data-max="5">You have selected <strong>5</strong> problems.  Thanks!  Please press Continue.</span>
+      <span class="checkbox_count" data-min="6" data-max="100">You have selected <strong><span class="checkbox_count_number"></span></strong> problems.  Please select <strong>no more than 5 problems</strong>.  Please deselect some of the problems you have selected before pressing Continue.</span>
+---
+code: |
+  if user_type == 'client':
+    need(zip_code)
+  if user_type in ['community', 'legalservices']:
+    need(organization_type)
+  if user_type in ['staff', 'legalservices']:
+    need(staff_type)
+  if user_type == 'legalservices':
+    need(law_organization_practice_area)
+  if user_type == 'board':
+    if is_attorney:
+      board_member_type = 'attorney'
+    elif is_client_board_member:
+      board_member_type = 'client'
+    else:
+      board_member_type = 'community'
+  if user_type in ['community', 'legalservices', 'staff']:
+    need(underserved_area_of_law, underserved_populations)
+  initial_information_gathered = True
+---
+question: Are you an attorney?
+yesno: is_attorney
+---
+question: Are you a client board member?
+yesno: is_client_board_member
+---
+question: In what zip code do you live?
+fields:
+  - Zip Code: zip_code
+    hint: e.g., 19123
+---
+question: For what type of organization do you work?
+field: organization_type
+choices:
+  - Court
+  - Advocacy organization
+  - Social service organization
+  - Legal services organization
+  - City agency
+  - Law firm
+  - Other
+  - None
+help: |
+  If the organization for which you work serves more than one of the
+  purposes listed, pick the primary purpose, or the purpose for which
+  your organization is best known.
+---
+question: |
+  Current legal trends
+subquestion: |
+  Have you seen or identified any current legal trends within the
+  client community that would indicate that clients are unserved or
+  underserved in a particular area of law?  If so, please identify
+  the area of law.
+fields:
+  - Area of law: underserved_area_of_law
+    hint: Upgrading of other-than-honorable discharges
+    datatype: area
+    required: false
+---
+question: |
+  Underserved population groups
+subquestion: |
+  Are there any populations in Philadelphia that you think may be
+  disproportionately underserved by legal service providers?  If so,
+  please identify the populations.
+fields:
+  - Underserved populations: underserved_populations
+    hint: Spanish speakers in South Philadelphia
+    datatype: area
+    required: false
+---
+question: |
+  What is your position at your organization?
+field: staff_type
+choices:
+  - Attorney or law graduate
+  - Paralegal
+  - Volunteer
+  - Other
+---
+question: |
+  In what area(s) of law does your program practice?
+fields:
+  - Areas of law: law_organization_practice_area
+    hint: General civil legal services
+    datatype: area
+---
+question: |
+  Any final comments?
+subquestion: |
+  This is the last question of the interview.  Do you have any final
+  comments that you think might be helpful to us when we are reviewing
+  the results of our survey?
+
+  If not, press **Continue** to submit your answers.
+fields:
+  - Comments: final_comments
+    datatype: area
+---
+code: |
+  store = dict()
+  for variable in ['organization_type', 'zip_code', 'board_member_type', 'user_type', 'otherlegalproblem', 'otherproblem', 'is_test']:
+    if variable in globals():
+      store[variable] = globals()[variable]
+  for index in range(1, 67):
+    variable = 'problem' + str(index)
+    if variable in globals():
+      store[variable] = globals()[variable]
+  for index in range(1, 70):
+    variable = 'legalproblem' + str(index)
+    if variable in globals():
+      store[variable] = globals()[variable]
+  storage.save_survey_results(store)
+  saved_survey_results = True
+---
+code: |
+  user_type = url_args.get('type', 'client')
+  if 'test' in url_args:
+    is_test = True
+  else:
+    is_test = False
+---
+sets: done_with_survey
+question: Thank you!
+subquestion: |
+  Your answers to the [Philadelphia Legal Assistance] Needs Assessment
+  Survey have been saved.
+
+  **Thank you very much for taking the time to complete the survey.**
+
+  The information you have given us will be extremely valuable to
+  us as we set priorities over the next few years.
+
+  Have a great day!
+
+  [Philadelphia Legal Assistance]: http://philalegal.org
+buttons:
+  - Exit: exit
+---
+mandatory: true
+code: |
+  need(welcome_screen, initial_information_gathered, legalproblem1, otherlegalproblem, problem1, otherproblem, saved_survey_results)
+  need(done_with_survey)

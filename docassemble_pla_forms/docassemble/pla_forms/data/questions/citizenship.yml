@@ -71,7 +71,7 @@ mandatory: True
 code: |
   if client.is_citizen:
     form_type = "citizenship attestation"
-    if user_is_willing_to_sign_citizenship_attestation and client.signature_verified and ok_to_submit_attestation_form:
+    if user_is_willing_to_sign_citizenship_attestation and client.signature and client.signature_verified and ok_to_submit_attestation_form:
       need(form_submitted)
     else:
       need(form_not_appropriate)

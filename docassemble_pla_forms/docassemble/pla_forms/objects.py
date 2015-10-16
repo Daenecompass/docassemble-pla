@@ -2,7 +2,29 @@ import psycopg2
 from docassemble.webapp.config import daconfig
 from base64 import b64decode
 from docassemble.base.core import DAObject
+import json
 
+#drop table if exists survey_answers; create table survey_answers (submissiontime timestamp default now(), content text);
+
+class Storage(DAObject):
+    def init(self):
+        return super(Storage, self).init()
+    def save_survey_results(self, the_dict):
+        storage = daconfig.get('storage', None)
+        if storage is None:
+            raise Exception("Could not get database connection information")
+        try:
+            conn = psycopg2.connect("dbname='" + storage['database'] + "' user='" + storage['username'] + "' host='" + storage['host'] + "' password='" + storage['password'] + "'")
+        except Exception as e:
+            raise Exception("Could not connect to database: " + str(e))
+        answer_json = json.dumps(the_dict)
+        cur = conn.cursor()
+        cur.execute("""insert into survey_answers (content) values (%s)""", (str(answer_json),))
+        conn.commit()
+        cur.close()
+        conn.close()
+        return
+    
 class LegalServer(DAObject):
     def init(self):
         self.connected = False
