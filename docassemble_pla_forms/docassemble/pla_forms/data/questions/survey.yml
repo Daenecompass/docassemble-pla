@@ -58,14 +58,16 @@ fields:
     required: false
 ---
 question: |
-  Are there any other problems that are significant in your community?
+  Are there any other significant problems in your community?
 subquestion: |
-  If there are any other problems that are significant in your community,
-  which we did not mention, please list them here.
+  If there are any other significant problems in your community, which
+  we did not mention in the list of problems but that you would rank among
+  the top five most significant problems in your community, please list
+  them here.
 
   If not, press Continue.
 fields:
-  - Other Legal Problems: otherlegalproblem
+  - Other Legal Problems: otherproblem
     datatype: area
     required: false
 ---
@@ -221,6 +223,12 @@ fields:
     datatype: yesno
   - School discipline: legalproblem69
     datatype: yesno
+  - report_number_of_checkboxes_selected: |
+      <span class="checkbox_count" data-min="0" data-max="0">You have not selected any legal issues yet.  Please select 5 legal issues before pressing Continue.</span>
+      <span class="checkbox_count" data-min="1" data-max="1">You have selected 1 legal issue so far.  You may select up to 5 legal issues before pressing Continue.</span>
+      <span class="checkbox_count" data-min="2" data-max="4">You have selected <span class="checkbox_count_number"></span> legal issues so far.  You may select up to 5 legal issues before pressing Continue.</span>
+      <span class="checkbox_count" data-min="5" data-max="5">You have selected 5 legal issues.  Thanks!  Please press Continue.</span>
+      <span class="checkbox_count" data-min="6" data-max="100">You have selected <span class="checkbox_count_number"></span> legal issues.  Please select <strong>no more than 5 legal issues</strong>.  Please deselect some of the legal issues you have selected before pressing Continue.</span>
 ---
 question: |
   Significant problems in your community
@@ -362,3 +370,9 @@ fields:
     datatype: yesno
   - High school dropout rate too high: problem67
     datatype: yesno
+  - report_number_of_checkboxes_selected: |
+      <span class="checkbox_count" data-min="0" data-max="0">You have not selected any problems yet.  Please select 5 problems before pressing Continue.</span>
+      <span class="checkbox_count" data-min="1" data-max="1">You have selected 1 problem so far.  You may select up to 5 problems before pressing Continue.</span>
+      <span class="checkbox_count" data-min="2" data-max="4">You have selected <span class="checkbox_count_number"></span> problems so far.  You may select up to 5 problems before pressing Continue.</span>
+      <span class="checkbox_count" data-min="5" data-max="5">You have selected 5 problems.  Thanks!  Please press Continue.</span>
+      <span class="checkbox_count" data-min="6" data-max="100">You have selected <span class="checkbox_count_number"></span> problems.  Please select <strong>no more than 5 problems</strong>.  Please deselect some of the problems you have selected before pressing Continue.</span>
