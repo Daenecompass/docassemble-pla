@@ -300,13 +300,40 @@ fields:
     datatype: yesno
   - Wills/powers of attorney/advance directives: legalproblem70
     datatype: yesno
-  - report_number_of_checkboxes_selected: |
+  - html: |
       <h4>Summary of your answers</h4>
       <span class="checkbox_count" data-min="0" data-max="0">You have not selected any legal issues yet.  Please select 5 legal issues before pressing Continue.</span>
       <span class="checkbox_count" data-min="1" data-max="1">You have selected <strong>1</strong> legal issue so far.  You may select up to 5 legal issues before pressing Continue.</span>
       <span class="checkbox_count" data-min="2" data-max="4">You have selected <strong><span class="checkbox_count_number"></span></strong> legal issues so far.  You may select up to 5 legal issues before pressing Continue.</span>
       <span class="checkbox_count" data-min="5" data-max="5">You have selected <strong>5</strong> legal issues.  Thanks!  Please press Continue.</span>
       <span class="checkbox_count" data-min="6" data-max="100">You have selected <strong><span class="checkbox_count_number"></span></strong> legal issues.  Please select <strong>no more than 5 legal issues</strong>.  Please deselect some of the legal issues you have selected before pressing Continue.</span>
+    script: |
+      $( document ).ready(function() {
+        function update_checkbox_report(){
+          count = 0;
+          $("input[type=checkbox]").each(function(index){
+            if (this.checked){
+              count = count + 1;
+            }
+          });
+          $(".checkbox_count").each(function(index){
+            if (count >= this.dataset.min && count <= this.dataset.max){
+              this.style.display = "inline"
+            }
+            else{
+              this.style.display = "none"
+            }
+          });
+          $(".checkbox_count_number").each(function(index){
+            this.innerHTML = count
+          });
+        }
+        $("input[type=checkbox]").change(function(){
+          setTimeout(function(){ update_checkbox_report(); }, 1000);
+        });
+        update_checkbox_report();
+      });
+      </script>
 ---
 question: |
   % if user_type == 'client':
