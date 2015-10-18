@@ -92,7 +92,7 @@ question: |
   % if user_type == 'client':
   Are there any other civil legal issues that are significant in your community?
   % else:
-  Are there any other civil legal issues that you think are significant in
+  Are there any other legal issues that you think are significant in
   Philadelphia's low-income communities?
   % endif
 subquestion: |
@@ -100,12 +100,12 @@ subquestion: |
   If there are any other non-criminal legal issues that are significant in
   your community, which we did not mention, you can describe them here.
   % else:
-  If there are any other civil legal issues that you think are significant in
+  If there are any other legal issues that you think are significant in
   Philadelphia's low-income communities, but were not mentioned in the list,
   you can describe them here.
   % endif
   
-  If not, press **Continue**.
+  If not, press **Continue** to skip this question.
 fields:
   - no label: otherlegalproblem
     datatype: area
@@ -125,12 +125,13 @@ subquestion: |
   the top five most significant problems in your community, please list
   them here.
   % else:
-  If there are any other problems (not mentioned in the list) that you think
-  are among the top five most significant problems facing Philadelphia's
-  low-income communities, please describe those problems here.
+  If there are any other problems (not mentioned in the previous list)
+  that you think are among the top five most significant problems
+  facing Philadelphia's low-income communities, please describe those
+  problems here.
   % endif
   
-  If not, press **Continue**.
+  If not, press **Continue** to skip this question.
 fields:
   - no label: othersocialproblem
     datatype: area
@@ -351,11 +352,14 @@ question: |
 subquestion: |
   Have you seen or identified any current legal trends within the
   client community that would indicate that clients are unserved or
-  underserved in a particular area of law?  If so, please identify
-  the area of law.
+  underserved in a particular area of law?
+
+  If so, please identify the area of law.
+
+  If not, press **Continue** to skip this question.
 fields:
   - no label: underserved_area_of_law
-    hint: Upgrading of other-than-honorable discharges
+    hint: E.g., upgrading of other-than-honorable discharges
     datatype: area
     required: false
 ---
@@ -363,11 +367,14 @@ question: |
   Underserved population groups
 subquestion: |
   Are there any populations in Philadelphia that you think may be
-  disproportionately underserved by legal service providers?  If so,
-  please identify the populations.
+  disproportionately underserved by legal service providers?
+
+  If so, please identify the populations.
+  
+  If not, press **Continue** to skip this question.
 fields:
   - no label: underserved_populations
-    hint: Spanish speakers in South Philadelphia
+    hint: E.g., Spanish speakers in South Philadelphia
     datatype: area
     required: false
 ---
@@ -439,6 +446,10 @@ question: Thank you!
 subquestion: |
   Your answers to the [Philadelphia Legal Assistance] Needs Assessment
   Survey have been saved.
+  % if is_test:
+  (In reality, they weren't, because you are just testing this form.
+  But this is the message survey takers will see.)
+  % endif
 
   **Thank you very much for taking the time to complete the survey.**
 
