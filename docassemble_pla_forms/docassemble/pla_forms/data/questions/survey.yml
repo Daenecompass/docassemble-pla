@@ -132,7 +132,7 @@ subquestion: |
   
   If not, press **Continue**.
 fields:
-  - no label: otherproblem
+  - no label: othersocialproblem
     datatype: area
     required: false
 ---
@@ -155,7 +155,7 @@ subquestion: |
   When you are done, please press the **Continue** button at the bottom of the
   page.
 fields:
-  - no label: legalproblem
+  - no label: legalproblems
     code: |
       problems.legal()
     datatype: checkboxes
@@ -255,7 +255,7 @@ help: |
   [PLA]: http://philalegal.org
   [Philadelphia Unemployment Project]: http://philaup.org
 fields:
-  - no label: problem
+  - no label: socialproblems
     code: |
       problems.social()
     datatype: checkboxes
@@ -323,7 +323,9 @@ yesno: is_attorney
 question: Are you a client board member?
 yesno: is_client_board_member
 ---
-question: In what zip code do you live?
+question: In what ZIP code do you live?
+subquestion: |
+  You can look up your ZIP code [here](https://tools.usps.com/go/ZipLookupAction!input.action).
 fields:
   - no label: zip_code
     hint: e.g., 19123
@@ -399,15 +401,7 @@ fields:
 ---
 code: |
   store = dict()
-  for variable in ['organization_type', 'zip_code', 'board_member_type', 'user_type', 'otherlegalproblem', 'otherproblem', 'is_test', 'is_low_income', 'staff_type', 'law_organization_practice_area']:
-    if variable in globals():
-      store[variable] = globals()[variable]
-  for index in range(1, 67):
-    variable = 'problem' + str(index)
-    if variable in globals():
-      store[variable] = globals()[variable]
-  for index in range(1, 70):
-    variable = 'legalproblem' + str(index)
+  for variable in ['organization_type', 'zip_code', 'board_member_type', 'user_type', 'legalproblems', 'socialproblems', 'otherlegalproblem', 'othersocialproblem', 'is_test', 'is_low_income', 'staff_type', 'law_organization_practice_area']:
     if variable in globals():
       store[variable] = globals()[variable]
   storage.save_survey_results(store)
@@ -426,14 +420,14 @@ subquestion: |
   Include yourself and any children who live in your household.
 field: number_of_people_in_household
 choices:
-  - One: 1
-  - Two: 2
-  - Three: 3
-  - Four: 4
-  - Five: 5
-  - Six: 6
-  - Seven: 7
-  - Eight or more: 8
+  - 1: 1
+  - 2: 2
+  - 3: 3
+  - 4: 4
+  - 5: 5
+  - 6: 6
+  - 7: 7
+  - 8 or more: 8
 ---
 question: |
   Is your total annual household income less than
@@ -459,5 +453,5 @@ buttons:
 ---
 mandatory: true
 code: |
-  need(welcome_screen, initial_information_gathered, legalproblem, otherlegalproblem, problem, otherproblem, saved_survey_results)
+  need(welcome_screen, initial_information_gathered, legalproblems, otherlegalproblem, socialproblems, othersocialproblem, saved_survey_results)
   need(done_with_survey)
