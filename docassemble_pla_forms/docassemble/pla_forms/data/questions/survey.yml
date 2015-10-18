@@ -261,6 +261,7 @@ fields:
     code: |
       problems.social()
     datatype: checkboxes
+    shuffle: true
   - html: |
       <h4>Summary of your answers</h4>
       <span class="checkbox_count" data-min="0" data-max="0">You have not selected any problems yet.  Please select 5 problems before pressing <strong>Continue</strong>.</span>
@@ -300,13 +301,13 @@ fields:
 code: |
   if user_type == 'client':
     need(zip_code)
-  if user_type in ['legalservices']:
+  if user_type == 'legalservices':
     organization_type = 'Legal services organization'
-  if user_type in ['community']:
+  if user_type == 'community':
     need(organization_type)
-  if user_type in ['staff', 'legalservices'] or organization_type == 'Legal services organization':
+  if user_type in ['staff', 'legalservices'] or (user_type == 'community' and organization_type == 'Legal services organization'):
     need(staff_type)
-  if user_type == 'legalservices' or organization_type == 'Legal services organization':
+  if user_type == 'legalservices' or (user_type == 'community' and organization_type == 'Legal services organization'):
     need(law_organization_practice_area)
   if user_type == 'client':
     need(is_low_income)
