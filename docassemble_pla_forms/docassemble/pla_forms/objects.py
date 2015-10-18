@@ -159,7 +159,7 @@ class ProblemListing(DAObject):
             "Lawsuits (e.g., auto accident defense)",
             "Wills/powers of attorney/advance directives"]
     def social(self):
-        return random.shuffle([
+        social_problem_list = [
             "Not having any health insurance",
             "Health insurance too expensive",
             "Lack of access to healthy food",
@@ -226,5 +226,7 @@ class ProblemListing(DAObject):
             "Too difficult to shield children from bad influences",
             "Language barriers to accessing services",
             "Waiting list for public housing is too long",
-            "High school dropout rate too high"])
+            "High school dropout rate too high"]
+        random.shuffle(social_problem_list)
+        return social_problem_list
 
