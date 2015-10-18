@@ -10,16 +10,20 @@ metadata:
 include:
   - docassemble.pla_forms:data/questions/basic-questions.yml
 ---
-image sets:
-  pla:
-    images:
-      pla_logo: PLA-logo-200.jpg
+images:
+  pla_logo: PLA-logo-200.jpg
 ---
 modules:
   - docassemble.pla_forms.objects
 ---
 objects:
   - storage: Storage
+  - problems: ProblemListing
+---
+terms:
+  civil legal issues: |
+    Civil legal issues include all legal issues except for criminal
+    prosecution and defense.
 ---
 interview help:
   heading: What is the purpose of this survey?
@@ -86,9 +90,9 @@ subquestion: |
 ---
 question: |
   % if user_type == 'client':
-  Are there any other legal issues that are significant in your community?
+  Are there any other civil legal issues that are significant in your community?
   % else:
-  Are there any other legal issues that you think are significant in
+  Are there any other civil legal issues that you think are significant in
   Philadelphia's low-income communities?
   % endif
 subquestion: |
@@ -134,7 +138,7 @@ fields:
 ---
 question: |
   % if user_type == 'client':
-  What are the most significant legal issues in your community?
+  What are the most significant civil legal issues in your community?
   % else:
   What do you think are the most significant legal issues in Philadelphia's
   low-income communities?
@@ -151,164 +155,10 @@ subquestion: |
   When you are done, please press the **Continue** button at the bottom of the
   page.
 fields:
-  - note: |
-      #### Income and Benefits
-  - Personal income tax problems: legalproblem1
-    datatype: yesnowide
-  - Getting and keeping cash assistance: legalproblem2
-    datatype: yesnowide
-  - Getting and keeping food stamps: legalproblem3
-    datatype: yesnowide
-  - Getting and keeping Social Security Disability and/or SSI benefits: legalproblem4
-    datatype: yesnowide
-  - note: |
-      #### Housing
-  - Eviction from your rental property: legalproblem5
-    datatype: yesnowide
-  - Poor housing condition in rental property: legalproblem6
-    datatype: yesnowide
-  - Problems with the Philadelphia Housing Authority: legalproblem7
-    datatype: yesnowide
-  - Mortgage delinquency or foreclosure: legalproblem8
-    datatype: yesnowide
-  - Real estate tax delinquency or foreclosure: legalproblem9
-    datatype: yesnowide
-  - Getting on the deed to a house: legalproblem10
-    datatype: yesnowide
-  - Problems with the purchase of real estate: legalproblem11
-    datatype: yesnowide
-  - Housing discrimination: legalproblem12
-    datatype: yesnowide
-  - Removing someone from your property: legalproblem13
-    datatype: yesnowide
-  - Blighted / abandoned property: legalproblem14
-    datatype: yesnowide
-  - note: |
-      #### Family
-  - Divorce: legalproblem15
-    datatype: yesnowide
-  - Child abuse / neglect: legalproblem16
-    datatype: yesnowide
-  - Domestic Violence: legalproblem17
-    datatype: yesnowide
-  - Child custody / visitation: legalproblem18
-    datatype: yesnowide
-  - Obtaining an order for child/spousal support: legalproblem19
-    datatype: yesnowide
-  - Enforcing an order for child/spousal support: legalproblem20
-    datatype: yesnowide
-  - Defending against child/spousal support claims: legalproblem21
-    datatype: yesnowide
-  - Adoption / termination of parental rights: legalproblem22
-    datatype: yesnowide
-  - Legal responsibility for an adult (guardianship): legalproblem23
-    datatype: yesnowide
-  - note: |
-      #### Money and credit
-  - Bankruptcy: legalproblem24
-    datatype: yesnowide
-  - Identity theft: legalproblem25
-    datatype: yesnowide
-  - Credit card collection: legalproblem26
-    datatype: yesnowide
-  - Automobile loans: legalproblem27
-    datatype: yesnowide
-  - Student loans: legalproblem28
-    datatype: yesnowide
-  - Very old judgments against you: legalproblem29
-    datatype: yesnowide
-  - Trade school fraud: legalproblem30
-    datatype: yesnowide
-  - Rent-to-own agreements: legalproblem31
-    datatype: yesnowide
-  - Sales contracts: legalproblem32
-    datatype: yesnowide
-  - Garnishing of wages: legalproblem33
-    datatype: yesnowide
-  - Harassment by collection agencies: legalproblem34
-    datatype: yesnowide
-  - Unfair business practices / predatory lending: legalproblem35
-    datatype: yesnowide
-  - note: |
-      #### Employment
-  - Unemployment compensation: legalproblem36
-    datatype: yesnowide
-  - Receiving pay from a job: legalproblem37
-    datatype: yesnowide
-  - Denied employment because of criminal records: legalproblem38
-    datatype: yesnowide
-  - Wrongful discharge from employment: legalproblem39
-    datatype: yesnowide
-  - Employment discrimination: legalproblem40
-    datatype: yesnowide
-  - Pension benefits: legalproblem41
-    datatype: yesnowide
-  - Unfair labor practices: legalproblem42
-    datatype: yesnowide
-  - Unsafe working conditions: legalproblem43
-    datatype: yesnowide
-  - Civil service problems: legalproblem44
-    datatype: yesnowide
-  - note: |
-      #### Health
-  - Medical Assistance, Medicaid, or Medicare: legalproblem45
-    datatype: yesnowide
-  - Getting and keeping private health insurance: legalproblem46
-    datatype: yesnowide
-  - Children’s Health Insurance Program (CHIP): legalproblem47
-    datatype: yesnowide
-  - Affordable Care Act: legalproblem48
-    datatype: yesnowide
-  - Nursing home care: legalproblem49
-    datatype: yesnowide
-  - Access to home health aides: legalproblem50
-    datatype: yesnowide
-  - note: |
-      #### Utilities
-  - Preventing utility shutoffs: legalproblem51
-    datatype: yesnowide
-  - Resolving utility billing problems: legalproblem52
-    datatype: yesnowide
-  - Telephone problems: legalproblem53
-    datatype: yesnowide
-  - Internet access: legalproblem54
-    datatype: yesnowide
-  - note: |
-      #### Rights
-  - Rights of the disabled: legalproblem55
-    datatype: yesnowide
-  - LGBT rights: legalproblem56
-    datatype: yesnowide
-  - Rights of non-English speakers: legalproblem57
-    datatype: yesnowide
-  - Police misconduct: legalproblem58
-    datatype: yesnowide
-  - Elder abuse: legalproblem59
-    datatype: yesnowide
-  - note: |
-      #### Other
-  - Veterans’ issues: legalproblem60
-    datatype: yesnowide
-  - Driver’s license issues: legalproblem61
-    datatype: yesnowide
-  - Name change: legalproblem62
-    datatype: yesnowide
-  - Immigration: legalproblem63
-    datatype: yesnowide
-  - Incorporation of business: legalproblem64
-    datatype: yesnowide
-  - Incorporation of non-profit: legalproblem65
-    datatype: yesnowide
-  - Bench warrants: legalproblem66
-    datatype: yesnowide
-  - Prison problems: legalproblem67
-    datatype: yesnowide
-  - Special education / school discipline: legalproblem68
-    datatype: yesnowide
-  - Lawsuits (e.g., auto accident defense): legalproblem69
-    datatype: yesnowide
-  - Wills/powers of attorney/advance directives: legalproblem70
-    datatype: yesnowide
+  - no label: legalproblem
+    code: |
+      problems.legal()
+    datatype: checkboxes
   - html: |
       <h4>Summary of your answers</h4>
       <span class="checkbox_count" data-min="0" data-max="0">You have not selected any legal issues yet.  Please select 5 legal issues before pressing <strong>Continue</strong>.</span>
@@ -405,140 +255,10 @@ help: |
   [PLA]: http://philalegal.org
   [Philadelphia Unemployment Project]: http://philaup.org
 fields:
-  - Not having any health insurance: problem1
-    datatype: yesnowide
-  - Health insurance too expensive: problem2
-    datatype: yesnowide
-  - Lack of access to healthy food: problem3
-    datatype: yesnowide
-  - Not enough homeless shelters: problem4
-    datatype: yesnowide
-  - Not enough soup kitchens: problem5
-    datatype: yesnowide
-  - Lack of affordable housing: problem6
-    datatype: yesnowide
-  - Domestic violence: problem7
-    datatype: yesnowide
-  - Gentrification: problem8
-    datatype: yesnowide
-  - Predatory lenders: problem9
-    datatype: yesnowide
-  - Abandoned property / empty lots: problem10
-    datatype: yesnowide
-  - Lack of access to financial services (banks, loans): problem11
-    datatype: yesnowide
-  - Youth unemployment: problem12
-    datatype: yesnowide
-  - Adult unemployment: problem13
-    datatype: yesnowide
-  - Lack of support for youth in foster system who turn 18: problem14
-    datatype: yesnowide
-  - Employers do not provide enough sick days: problem15
-    datatype: yesnowide
-  - Unhealthy environment: problem16
-    datatype: yesnowide
-  - Chronic health problems (asthma, diabetes, obesity): problem17
-    datatype: yesnowide
-  - Violence: problem18
-    datatype: yesnowide
-  - Lack of affordable child care: problem19
-    datatype: yesnowide
-  - Not enough jobs: problem20
-    datatype: yesnowide
-  - Jobs do not pay enough: problem21
-    datatype: yesnowide
-  - Guns: problem22
-    datatype: yesnowide
-  - Crime: problem23
-    datatype: yesnowide
-  - Immoral behavior: problem24
-    datatype: yesnowide
-  - Corruption of public officials: problem25
-    datatype: yesnowide
-  - Lack of knowledge about how to access services: problem26
-    datatype: yesnowide
-  - Discrimination: problem27
-    datatype: yesnowide
-  - Mental health issues (depression, bipolar, etc.): problem28
-    datatype: yesnowide
-  - Too difficult to escape burden of debt: problem29
-    datatype: yesnowide
-  - People who owe child support don’t pay it: problem30
-    datatype: yesnowide
-  - Too difficult to pay child support while supporting yourself: problem31
-    datatype: yesnowide
-  - Too easy for banks to foreclose on homes: problem32
-    datatype: yesnowide
-  - Homes stay in foreclosure for too long: problem33
-    datatype: yesnowide
-  - Children being abused / neglected: problem34
-    datatype: yesnowide
-  - Bad landlords: problem35
-    datatype: yesnowide
-  - Drugs: problem36
-    datatype: yesnowide
-  - Houses being neglected: problem37
-    datatype: yesnowide
-  - Insufficient policing: problem38
-    datatype: yesnowide
-  - Police misconduct: problem39
-    datatype: yesnowide
-  - Public areas not well maintained (trash, unsafe sidewalks, potholes in roads, etc.): problem40
-    datatype: yesnowide
-  - Noise: problem41
-    datatype: yesnowide
-  - Unfair criminal charges: problem42
-    datatype: yesnowide
-  - Unfair job termination: problem43
-    datatype: yesnowide
-  - Real estate taxes too high: problem44
-    datatype: yesnowide
-  - Income taxes too high: problem45
-    datatype: yesnowide
-  - Liens on property: problem46
-    datatype: yesnowide
-  - Lack of community centers: problem47
-    datatype: yesnowide
-  - Lack of after-school programs: problem48
-    datatype: yesnowide
-  - Not enough opportunities for peaceful conflict resolution: problem49
-    datatype: yesnowide
-  - Insufficient government services: problem50
-    datatype: yesnowide
-  - Unsafe drivers: problem51
-    datatype: yesnowide
-  - Poor public transportation services: problem52
-    datatype: yesnowide
-  - Transportation too expensive: problem53
-    datatype: yesnowide
-  - Not enough community organizations: problem54
-    datatype: yesnowide
-  - Lack of support for pregnant and parenting teens: problem55
-    datatype: yesnowide
-  - Low quality of schools: problem56
-    datatype: yesnowide
-  - Lack of economic opportunity: problem57
-    datatype: yesnowide
-  - Too much development: problem58
-    datatype: yesnowide
-  - Not enough development: problem59
-    datatype: yesnowide
-  - Too difficult to move from one residence to another: problem60
-    datatype: yesnowide
-  - People change residences too often: problem61
-    datatype: yesnowide
-  - Too easy for landlords to evict people: problem62
-    datatype: yesnowide
-  - Too difficult for landlords to evict people: problem63
-    datatype: yesnowide
-  - Too difficult to shield children from bad influences: problem64
-    datatype: yesnowide
-  - Language barriers to accessing services: problem65
-    datatype: yesnowide
-  - Waiting list for public housing is too long: problem66
-    datatype: yesnowide
-  - High school dropout rate too high: problem67
-    datatype: yesnowide
+  - no label: problem
+    code: |
+      problems.social()
+    datatype: checkboxes
   - html: |
       <h4>Summary of your answers</h4>
       <span class="checkbox_count" data-min="0" data-max="0">You have not selected any problems yet.  Please select 5 problems before pressing <strong>Continue</strong>.</span>
@@ -584,6 +304,8 @@ code: |
     need(staff_type)
   if user_type == 'legalservices':
     need(law_organization_practice_area)
+  if user_type == 'client':
+    need(is_low_income)
   if user_type == 'board':
     if is_attorney:
       board_member_type = 'attorney'
@@ -603,7 +325,7 @@ yesno: is_client_board_member
 ---
 question: In what zip code do you live?
 fields:
-  - Zip Code: zip_code
+  - no label: zip_code
     hint: e.g., 19123
 ---
 question: For what type of organization do you work?
@@ -677,7 +399,7 @@ fields:
 ---
 code: |
   store = dict()
-  for variable in ['organization_type', 'zip_code', 'board_member_type', 'user_type', 'otherlegalproblem', 'otherproblem', 'is_test']:
+  for variable in ['organization_type', 'zip_code', 'board_member_type', 'user_type', 'otherlegalproblem', 'otherproblem', 'is_test', 'is_low_income', 'staff_type', 'law_organization_practice_area']:
     if variable in globals():
       store[variable] = globals()[variable]
   for index in range(1, 67):
@@ -698,6 +420,26 @@ code: |
   else:
     is_test = False
 ---
+question: |
+  How many people live in your household?
+subquestion: |
+  Include yourself and any children who live in your household.
+field: number_of_people_in_household
+choices:
+  - One: 1
+  - Two: 2
+  - Three: 3
+  - Four: 4
+  - Five: 5
+  - Six: 6
+  - Seven: 7
+  - Eight or more: 8
+---
+question: |
+  Is your total annual household income less than
+  ${ currency((float(number_of_people_in_household) - 1) * 8320 + 23541, decimals=False) }?
+yesno: is_low_income
+---
 sets: done_with_survey
 question: Thank you!
 subquestion: |
@@ -717,5 +459,5 @@ buttons:
 ---
 mandatory: true
 code: |
-  need(welcome_screen, initial_information_gathered, legalproblem1, otherlegalproblem, problem1, otherproblem, saved_survey_results)
+  need(welcome_screen, initial_information_gathered, legalproblem, otherlegalproblem, problem, otherproblem, saved_survey_results)
   need(done_with_survey)
