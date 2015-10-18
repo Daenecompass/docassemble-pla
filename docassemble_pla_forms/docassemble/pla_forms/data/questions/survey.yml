@@ -65,8 +65,8 @@ subquestion: |
   [board](http://philalegal.org/board), and community organizations.
   We are asking:
 
-  * What are the most significant [civil] (non-criminal)
-  legal needs in Philadelphia’s neighborhoods?
+  * What are our clients' most significant [civil] (non-criminal)
+  legal needs?
 
   * What are the most significant problems affecting the communities
   where our clients live?
@@ -101,9 +101,9 @@ subquestion: |
   you can describe them here.
   % endif
   
-  If not, press Continue.
+  If not, press **Continue**.
 fields:
-  - Other Legal Problems: otherlegalproblem
+  - no label: otherlegalproblem
     datatype: area
     required: false
 ---
@@ -126,9 +126,9 @@ subquestion: |
   low-income communities, please describe those problems here.
   % endif
   
-  If not, press Continue.
+  If not, press **Continue**.
 fields:
-  - Other Problems: otherproblem
+  - no label: otherproblem
     datatype: area
     required: false
 ---
@@ -151,163 +151,173 @@ subquestion: |
   When you are done, please press the **Continue** button at the bottom of the
   page.
 fields:
-  - heading: Income and Benefits
+  - note: |
+      #### Income and Benefits
   - Personal income tax problems: legalproblem1
-    datatype: yesno
+    datatype: yesnowide
   - Getting and keeping cash assistance: legalproblem2
-    datatype: yesno
+    datatype: yesnowide
   - Getting and keeping food stamps: legalproblem3
-    datatype: yesno
+    datatype: yesnowide
   - Getting and keeping Social Security Disability and/or SSI benefits: legalproblem4
-    datatype: yesno
-  - heading: Housing
+    datatype: yesnowide
+  - note: |
+      #### Housing
   - Eviction from your rental property: legalproblem5
-    datatype: yesno
+    datatype: yesnowide
   - Poor housing condition in rental property: legalproblem6
-    datatype: yesno
+    datatype: yesnowide
   - Problems with the Philadelphia Housing Authority: legalproblem7
-    datatype: yesno
+    datatype: yesnowide
   - Mortgage delinquency or foreclosure: legalproblem8
-    datatype: yesno
+    datatype: yesnowide
   - Real estate tax delinquency or foreclosure: legalproblem9
-    datatype: yesno
+    datatype: yesnowide
   - Getting on the deed to a house: legalproblem10
-    datatype: yesno
+    datatype: yesnowide
   - Problems with the purchase of real estate: legalproblem11
-    datatype: yesno
+    datatype: yesnowide
   - Housing discrimination: legalproblem12
-    datatype: yesno
+    datatype: yesnowide
   - Removing someone from your property: legalproblem13
-    datatype: yesno
+    datatype: yesnowide
   - Blighted / abandoned property: legalproblem14
-    datatype: yesno
-  - heading: Family
+    datatype: yesnowide
+  - note: |
+      #### Family
   - Divorce: legalproblem15
-    datatype: yesno
+    datatype: yesnowide
   - Child abuse / neglect: legalproblem16
-    datatype: yesno
+    datatype: yesnowide
   - Domestic Violence: legalproblem17
-    datatype: yesno
+    datatype: yesnowide
   - Child custody / visitation: legalproblem18
-    datatype: yesno
+    datatype: yesnowide
   - Obtaining an order for child/spousal support: legalproblem19
-    datatype: yesno
+    datatype: yesnowide
   - Enforcing an order for child/spousal support: legalproblem20
-    datatype: yesno
+    datatype: yesnowide
   - Defending against child/spousal support claims: legalproblem21
-    datatype: yesno
+    datatype: yesnowide
   - Adoption / termination of parental rights: legalproblem22
-    datatype: yesno
+    datatype: yesnowide
   - Legal responsibility for an adult (guardianship): legalproblem23
-    datatype: yesno
-  - heading: Money and credit
+    datatype: yesnowide
+  - note: |
+      #### Money and credit
   - Bankruptcy: legalproblem24
-    datatype: yesno
+    datatype: yesnowide
   - Identity theft: legalproblem25
-    datatype: yesno
+    datatype: yesnowide
   - Credit card collection: legalproblem26
-    datatype: yesno
+    datatype: yesnowide
   - Automobile loans: legalproblem27
-    datatype: yesno
+    datatype: yesnowide
   - Student loans: legalproblem28
-    datatype: yesno
+    datatype: yesnowide
   - Very old judgments against you: legalproblem29
-    datatype: yesno
+    datatype: yesnowide
   - Trade school fraud: legalproblem30
-    datatype: yesno
+    datatype: yesnowide
   - Rent-to-own agreements: legalproblem31
-    datatype: yesno
+    datatype: yesnowide
   - Sales contracts: legalproblem32
-    datatype: yesno
+    datatype: yesnowide
   - Garnishing of wages: legalproblem33
-    datatype: yesno
+    datatype: yesnowide
   - Harassment by collection agencies: legalproblem34
-    datatype: yesno
+    datatype: yesnowide
   - Unfair business practices / predatory lending: legalproblem35
-    datatype: yesno
-  - heading: Employment
+    datatype: yesnowide
+  - note: |
+      #### Employment
   - Unemployment compensation: legalproblem36
-    datatype: yesno
+    datatype: yesnowide
   - Receiving pay from a job: legalproblem37
-    datatype: yesno
+    datatype: yesnowide
   - Denied employment because of criminal records: legalproblem38
-    datatype: yesno
+    datatype: yesnowide
   - Wrongful discharge from employment: legalproblem39
-    datatype: yesno
+    datatype: yesnowide
   - Employment discrimination: legalproblem40
-    datatype: yesno
+    datatype: yesnowide
   - Pension benefits: legalproblem41
-    datatype: yesno
+    datatype: yesnowide
   - Unfair labor practices: legalproblem42
-    datatype: yesno
+    datatype: yesnowide
   - Unsafe working conditions: legalproblem43
-    datatype: yesno
+    datatype: yesnowide
   - Civil service problems: legalproblem44
-    datatype: yesno
-  - heading: Health
+    datatype: yesnowide
+  - note: |
+      #### Health
   - Medical Assistance, Medicaid, or Medicare: legalproblem45
-    datatype: yesno
+    datatype: yesnowide
   - Getting and keeping private health insurance: legalproblem46
-    datatype: yesno
+    datatype: yesnowide
   - Children’s Health Insurance Program (CHIP): legalproblem47
-    datatype: yesno
+    datatype: yesnowide
   - Affordable Care Act: legalproblem48
-    datatype: yesno
+    datatype: yesnowide
   - Nursing home care: legalproblem49
-    datatype: yesno
+    datatype: yesnowide
   - Access to home health aides: legalproblem50
-    datatype: yesno
-  - heading: Utilities
+    datatype: yesnowide
+  - note: |
+      #### Utilities
   - Preventing utility shutoffs: legalproblem51
-    datatype: yesno
+    datatype: yesnowide
   - Resolving utility billing problems: legalproblem52
-    datatype: yesno
+    datatype: yesnowide
   - Telephone problems: legalproblem53
-    datatype: yesno
+    datatype: yesnowide
   - Internet access: legalproblem54
-    datatype: yesno
-  - heading: Rights
+    datatype: yesnowide
+  - note: |
+      #### Rights
   - Rights of the disabled: legalproblem55
-    datatype: yesno
+    datatype: yesnowide
   - LGBT rights: legalproblem56
-    datatype: yesno
+    datatype: yesnowide
   - Rights of non-English speakers: legalproblem57
-    datatype: yesno
+    datatype: yesnowide
   - Police misconduct: legalproblem58
-    datatype: yesno
+    datatype: yesnowide
   - Elder abuse: legalproblem59
-    datatype: yesno
-  - heading: Other
+    datatype: yesnowide
+  - note: |
+      #### Other
   - Veterans’ issues: legalproblem60
-    datatype: yesno
+    datatype: yesnowide
   - Driver’s license issues: legalproblem61
-    datatype: yesno
+    datatype: yesnowide
   - Name change: legalproblem62
-    datatype: yesno
+    datatype: yesnowide
   - Immigration: legalproblem63
-    datatype: yesno
+    datatype: yesnowide
   - Incorporation of business: legalproblem64
-    datatype: yesno
+    datatype: yesnowide
   - Incorporation of non-profit: legalproblem65
-    datatype: yesno
+    datatype: yesnowide
   - Bench warrants: legalproblem66
-    datatype: yesno
+    datatype: yesnowide
   - Prison problems: legalproblem67
-    datatype: yesno
+    datatype: yesnowide
   - Special education / school discipline: legalproblem68
-    datatype: yesno
+    datatype: yesnowide
   - Lawsuits (e.g., auto accident defense): legalproblem69
-    datatype: yesno
+    datatype: yesnowide
   - Wills/powers of attorney/advance directives: legalproblem70
-    datatype: yesno
+    datatype: yesnowide
   - html: |
       <h4>Summary of your answers</h4>
-      <span class="checkbox_count" data-min="0" data-max="0">You have not selected any legal issues yet.  Please select 5 legal issues before pressing Continue.</span>
-      <span class="checkbox_count" data-min="1" data-max="1">You have selected <strong>1</strong> legal issue so far.  You may select up to 5 legal issues before pressing Continue.</span>
-      <span class="checkbox_count" data-min="2" data-max="4">You have selected <strong><span class="checkbox_count_number"></span></strong> legal issues so far.  You may select up to 5 legal issues before pressing Continue.</span>
-      <span class="checkbox_count" data-min="5" data-max="5">You have selected <strong>5</strong> legal issues.  Thanks!  Please press Continue.</span>
-      <span class="checkbox_count" data-min="6" data-max="100">You have selected <strong><span class="checkbox_count_number"></span></strong> legal issues.  Please select <strong>no more than 5 legal issues</strong>.  Please deselect some of the legal issues you have selected before pressing Continue.</span>
+      <span class="checkbox_count" data-min="0" data-max="0">You have not selected any legal issues yet.  Please select 5 legal issues before pressing <strong>Continue</strong>.</span>
+      <span class="checkbox_count" data-min="1" data-max="1">You have selected <strong>1</strong> legal issue so far.  You may select up to 5 legal issues before pressing <strong>Continue</strong>.</span>
+      <span class="checkbox_count" data-min="2" data-max="4">You have selected <strong><span class="checkbox_count_number"></span></strong> legal issues so far.  You may select up to 5 legal issues before pressing <strong>Continue</strong>.</span>
+      <span class="checkbox_count" data-min="5" data-max="5">You have selected <strong>5</strong> legal issues.  Thanks!  Please press <strong>Continue</strong>.</span>
+      <span class="checkbox_count" data-min="6" data-max="100">You have selected <strong><span class="checkbox_count_number"></span></strong> legal issues.  Please select <strong>no more than 5 legal issues</strong>.  Please deselect some of the legal issues you have selected before pressing <strong>Continue</strong>.</span>
     script: |
+      <script>
       $( document ).ready(function() {
         function update_checkbox_report(){
           count = 0;
@@ -329,7 +339,7 @@ fields:
           });
         }
         $("input[type=checkbox]").change(function(){
-          setTimeout(function(){ update_checkbox_report(); }, 1000);
+          setTimeout(function(){ update_checkbox_report(); }, 500);
         });
         update_checkbox_report();
       });
@@ -396,146 +406,174 @@ help: |
   [Philadelphia Unemployment Project]: http://philaup.org
 fields:
   - Not having any health insurance: problem1
-    datatype: yesno
+    datatype: yesnowide
   - Health insurance too expensive: problem2
-    datatype: yesno
+    datatype: yesnowide
   - Lack of access to healthy food: problem3
-    datatype: yesno
+    datatype: yesnowide
   - Not enough homeless shelters: problem4
-    datatype: yesno
+    datatype: yesnowide
   - Not enough soup kitchens: problem5
-    datatype: yesno
+    datatype: yesnowide
   - Lack of affordable housing: problem6
-    datatype: yesno
+    datatype: yesnowide
   - Domestic violence: problem7
-    datatype: yesno
+    datatype: yesnowide
   - Gentrification: problem8
-    datatype: yesno
+    datatype: yesnowide
   - Predatory lenders: problem9
-    datatype: yesno
+    datatype: yesnowide
   - Abandoned property / empty lots: problem10
-    datatype: yesno
+    datatype: yesnowide
   - Lack of access to financial services (banks, loans): problem11
-    datatype: yesno
+    datatype: yesnowide
   - Youth unemployment: problem12
-    datatype: yesno
+    datatype: yesnowide
   - Adult unemployment: problem13
-    datatype: yesno
+    datatype: yesnowide
   - Lack of support for youth in foster system who turn 18: problem14
-    datatype: yesno
+    datatype: yesnowide
   - Employers do not provide enough sick days: problem15
-    datatype: yesno
+    datatype: yesnowide
   - Unhealthy environment: problem16
-    datatype: yesno
+    datatype: yesnowide
   - Chronic health problems (asthma, diabetes, obesity): problem17
-    datatype: yesno
+    datatype: yesnowide
   - Violence: problem18
-    datatype: yesno
+    datatype: yesnowide
   - Lack of affordable child care: problem19
-    datatype: yesno
+    datatype: yesnowide
   - Not enough jobs: problem20
-    datatype: yesno
+    datatype: yesnowide
   - Jobs do not pay enough: problem21
-    datatype: yesno
+    datatype: yesnowide
   - Guns: problem22
-    datatype: yesno
+    datatype: yesnowide
   - Crime: problem23
-    datatype: yesno
+    datatype: yesnowide
   - Immoral behavior: problem24
-    datatype: yesno
+    datatype: yesnowide
   - Corruption of public officials: problem25
-    datatype: yesno
+    datatype: yesnowide
   - Lack of knowledge about how to access services: problem26
-    datatype: yesno
+    datatype: yesnowide
   - Discrimination: problem27
-    datatype: yesno
+    datatype: yesnowide
   - Mental health issues (depression, bipolar, etc.): problem28
-    datatype: yesno
+    datatype: yesnowide
   - Too difficult to escape burden of debt: problem29
-    datatype: yesno
+    datatype: yesnowide
   - People who owe child support don’t pay it: problem30
-    datatype: yesno
+    datatype: yesnowide
   - Too difficult to pay child support while supporting yourself: problem31
-    datatype: yesno
+    datatype: yesnowide
   - Too easy for banks to foreclose on homes: problem32
-    datatype: yesno
+    datatype: yesnowide
   - Homes stay in foreclosure for too long: problem33
-    datatype: yesno
+    datatype: yesnowide
   - Children being abused / neglected: problem34
-    datatype: yesno
+    datatype: yesnowide
   - Bad landlords: problem35
-    datatype: yesno
+    datatype: yesnowide
   - Drugs: problem36
-    datatype: yesno
+    datatype: yesnowide
   - Houses being neglected: problem37
-    datatype: yesno
+    datatype: yesnowide
   - Insufficient policing: problem38
-    datatype: yesno
+    datatype: yesnowide
   - Police misconduct: problem39
-    datatype: yesno
+    datatype: yesnowide
   - Public areas not well maintained (trash, unsafe sidewalks, potholes in roads, etc.): problem40
-    datatype: yesno
+    datatype: yesnowide
   - Noise: problem41
-    datatype: yesno
+    datatype: yesnowide
   - Unfair criminal charges: problem42
-    datatype: yesno
+    datatype: yesnowide
   - Unfair job termination: problem43
-    datatype: yesno
+    datatype: yesnowide
   - Real estate taxes too high: problem44
-    datatype: yesno
+    datatype: yesnowide
   - Income taxes too high: problem45
-    datatype: yesno
+    datatype: yesnowide
   - Liens on property: problem46
-    datatype: yesno
+    datatype: yesnowide
   - Lack of community centers: problem47
-    datatype: yesno
+    datatype: yesnowide
   - Lack of after-school programs: problem48
-    datatype: yesno
+    datatype: yesnowide
   - Not enough opportunities for peaceful conflict resolution: problem49
-    datatype: yesno
+    datatype: yesnowide
   - Insufficient government services: problem50
-    datatype: yesno
+    datatype: yesnowide
   - Unsafe drivers: problem51
-    datatype: yesno
+    datatype: yesnowide
   - Poor public transportation services: problem52
-    datatype: yesno
+    datatype: yesnowide
   - Transportation too expensive: problem53
-    datatype: yesno
+    datatype: yesnowide
   - Not enough community organizations: problem54
-    datatype: yesno
+    datatype: yesnowide
   - Lack of support for pregnant and parenting teens: problem55
-    datatype: yesno
+    datatype: yesnowide
   - Low quality of schools: problem56
-    datatype: yesno
+    datatype: yesnowide
   - Lack of economic opportunity: problem57
-    datatype: yesno
+    datatype: yesnowide
   - Too much development: problem58
-    datatype: yesno
+    datatype: yesnowide
   - Not enough development: problem59
-    datatype: yesno
+    datatype: yesnowide
   - Too difficult to move from one residence to another: problem60
-    datatype: yesno
+    datatype: yesnowide
   - People change residences too often: problem61
-    datatype: yesno
+    datatype: yesnowide
   - Too easy for landlords to evict people: problem62
-    datatype: yesno
+    datatype: yesnowide
   - Too difficult for landlords to evict people: problem63
-    datatype: yesno
+    datatype: yesnowide
   - Too difficult to shield children from bad influences: problem64
-    datatype: yesno
+    datatype: yesnowide
   - Language barriers to accessing services: problem65
-    datatype: yesno
+    datatype: yesnowide
   - Waiting list for public housing is too long: problem66
-    datatype: yesno
+    datatype: yesnowide
   - High school dropout rate too high: problem67
-    datatype: yesno
-  - report_number_of_checkboxes_selected: |
+    datatype: yesnowide
+  - html: |
       <h4>Summary of your answers</h4>
-      <span class="checkbox_count" data-min="0" data-max="0">You have not selected any problems yet.  Please select 5 problems before pressing Continue.</span>
-      <span class="checkbox_count" data-min="1" data-max="1">You have selected <strong>1</strong> problem so far.  You may select up to 5 problems before pressing Continue.</span>
-      <span class="checkbox_count" data-min="2" data-max="4">You have selected <strong><span class="checkbox_count_number"></span></strong> problems so far.  You may select up to 5 problems before pressing Continue.</span>
-      <span class="checkbox_count" data-min="5" data-max="5">You have selected <strong>5</strong> problems.  Thanks!  Please press Continue.</span>
-      <span class="checkbox_count" data-min="6" data-max="100">You have selected <strong><span class="checkbox_count_number"></span></strong> problems.  Please select <strong>no more than 5 problems</strong>.  Please deselect some of the problems you have selected before pressing Continue.</span>
+      <span class="checkbox_count" data-min="0" data-max="0">You have not selected any problems yet.  Please select 5 problems before pressing <strong>Continue</strong>.</span>
+      <span class="checkbox_count" data-min="1" data-max="1">You have selected <strong>1</strong> problem so far.  You may select up to 5 problems before pressing <strong>Continue</strong>.</span>
+      <span class="checkbox_count" data-min="2" data-max="4">You have selected <strong><span class="checkbox_count_number"></span></strong> problems so far.  You may select up to 5 problems before pressing <strong>Continue</strong>.</span>
+      <span class="checkbox_count" data-min="5" data-max="5">You have selected <strong>5</strong> problems.  Thanks!  Please press <strong>Continue</strong>.</span>
+      <span class="checkbox_count" data-min="6" data-max="100">You have selected <strong><span class="checkbox_count_number"></span></strong> problems.  Please select <strong>no more than 5 problems</strong>.  Please deselect some of the problems you have selected before pressing <strong>Continue</strong>.</span>
+    script: |
+      <script>
+      $( document ).ready(function() {
+        function update_checkbox_report(){
+          count = 0;
+          $("input[type=checkbox]").each(function(index){
+            if (this.checked){
+              count = count + 1;
+            }
+          });
+          $(".checkbox_count").each(function(index){
+            if (count >= this.dataset.min && count <= this.dataset.max){
+              this.style.display = "inline"
+            }
+            else{
+              this.style.display = "none"
+            }
+          });
+          $(".checkbox_count_number").each(function(index){
+            this.innerHTML = count
+          });
+        }
+        $("input[type=checkbox]").change(function(){
+          setTimeout(function(){ update_checkbox_report(); }, 500);
+        });
+        update_checkbox_report();
+      });
+      </script>
 ---
 code: |
   if user_type == 'client':
