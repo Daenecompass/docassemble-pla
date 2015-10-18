@@ -299,7 +299,9 @@ fields:
 code: |
   if user_type == 'client':
     need(zip_code)
-  if user_type in ['community', 'legalservices']:
+  if user_type in ['legalservices']:
+    organization_type = 'Legal services organization'
+  if user_type in ['community']:
     need(organization_type)
   if user_type in ['staff', 'legalservices']:
     need(staff_type)
@@ -359,7 +361,7 @@ subquestion: |
   If not, press **Continue** to skip this question.
 fields:
   - no label: underserved_area_of_law
-    hint: E.g., upgrading of other-than-honorable discharges
+    hint: E.g., upgrading other-than-honorable discharges for veterans
     datatype: area
     required: false
 ---
