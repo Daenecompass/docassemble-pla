@@ -151,6 +151,7 @@ subquestion: |
   % else:
   Please review the list below and select **no more than five** legal issues
   you think are most significant in Philadelphia's low-income communities.
+  (The choices are phrased from the client's perspective.)
   % endif
 
   When you are done, please press the **Continue** button at the bottom of the
@@ -303,9 +304,9 @@ code: |
     organization_type = 'Legal services organization'
   if user_type in ['community']:
     need(organization_type)
-  if user_type in ['staff', 'legalservices']:
+  if user_type in ['staff', 'legalservices'] or organization_type == 'Legal services organization':
     need(staff_type)
-  if user_type == 'legalservices':
+  if user_type == 'legalservices' or organization_type == 'Legal services organization':
     need(law_organization_practice_area)
   if user_type == 'client':
     need(is_low_income)
