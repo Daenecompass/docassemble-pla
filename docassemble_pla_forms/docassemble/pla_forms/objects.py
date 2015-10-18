@@ -1,8 +1,9 @@
-import psycopg2
 from docassemble.webapp.config import daconfig
-from base64 import b64decode
 from docassemble.base.core import DAObject
+import psycopg2
+import base64
 import json
+import random
 
 #drop table if exists survey_answers; create table survey_answers (submissiontime timestamp default now(), content text);
 
@@ -68,7 +69,7 @@ class LegalServerCase(DAObject):
         self.retrieved = False
         return super(LegalServerCase, self).init()
     def retrieve(self, encoded_unique_id):
-        unique_id = b64decode(encoded_unique_id)
+        unique_id = base64.b64decode(encoded_unique_id)
         legalserver = LegalServer()
         legalserver.connect()
         self.fields = legalserver.lookup_unique_id(unique_id)
@@ -158,7 +159,7 @@ class ProblemListing(DAObject):
             "Lawsuits (e.g., auto accident defense)",
             "Wills/powers of attorney/advance directives"]
     def social(self):
-        return [
+        return random.shuffle([
             "Not having any health insurance",
             "Health insurance too expensive",
             "Lack of access to healthy food",
@@ -225,5 +226,5 @@ class ProblemListing(DAObject):
             "Too difficult to shield children from bad influences",
             "Language barriers to accessing services",
             "Waiting list for public housing is too long",
-            "High school dropout rate too high"]
+            "High school dropout rate too high"])
 
