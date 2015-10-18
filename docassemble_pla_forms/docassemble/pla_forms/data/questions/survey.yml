@@ -354,7 +354,7 @@ subquestion: |
   underserved in a particular area of law?  If so, please identify
   the area of law.
 fields:
-  - Area of law: underserved_area_of_law
+  - no label: underserved_area_of_law
     hint: Upgrading of other-than-honorable discharges
     datatype: area
     required: false
@@ -366,7 +366,7 @@ subquestion: |
   disproportionately underserved by legal service providers?  If so,
   please identify the populations.
 fields:
-  - Underserved populations: underserved_populations
+  - no label: underserved_populations
     hint: Spanish speakers in South Philadelphia
     datatype: area
     required: false
@@ -383,7 +383,7 @@ choices:
 question: |
   In what area(s) of law does your program practice?
 fields:
-  - Areas of law: law_organization_practice_area
+  - no label: law_organization_practice_area
     hint: General civil legal services
     datatype: area
 ---
