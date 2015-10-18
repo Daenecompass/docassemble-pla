@@ -52,7 +52,7 @@ decoration: pla_logo
 subquestion: |
   Thank you for taking our needs assessment survey!
 
-  % if user_type not in ['board', 'staff']:
+  % if user_type not in ['board', 'staff', 'legalservices']:
   As you may know, [Philadelphia Legal Assistance] is a non-profit
   legal services organization that, along with our sister
   organization, [CLS], provides legal advice and representation in
@@ -331,7 +331,7 @@ subquestion: |
   You can look up your ZIP code [here](https://tools.usps.com/go/ZipLookupAction!input.action).
 fields:
   - no label: zip_code
-    hint: e.g., 19123
+    hint: E.g., 19123
 ---
 question: For what type of organization do you work?
 field: organization_type
@@ -393,7 +393,7 @@ question: |
   In what area(s) of law does your program practice?
 fields:
   - no label: law_organization_practice_area
-    hint: General civil legal services
+    hint: E.g., general civil legal services
     datatype: area
 ---
 question: |
