@@ -106,6 +106,7 @@ subquestion: |
   % endif
   
   If not, press **Continue** to skip this question.
+decoration: scalesofjustice
 fields:
   - no label: otherlegalproblem
     datatype: area
@@ -156,6 +157,7 @@ subquestion: |
 
   When you are done, please press the **Continue** button at the bottom of the
   page.
+decoration: scalesofjustice
 fields:
   - no label: legalproblems
     code: |
@@ -331,6 +333,7 @@ yesno: is_client_board_member
 question: In what ZIP code do you live?
 subquestion: |
   You can look up your ZIP code [here](https://tools.usps.com/go/ZipLookupAction!input.action).
+decoration: map
 fields:
   - no label: zip_code
     hint: E.g., 19123
@@ -430,20 +433,22 @@ question: |
 subquestion: |
   Include yourself and any children who live in your household.
 field: number_of_people_in_household
+decoration: parentchild
 choices:
-  - 1: 1
-  - 2: 2
-  - 3: 3
-  - 4: 4
-  - 5: 5
-  - 6: 6
-  - 7: 7
-  - 8 or more: 8
+  - "1": 1
+  - "2": 2
+  - "3": 3
+  - "4": 4
+  - "5": 5
+  - "6": 6
+  - "7": 7
+  - "8 or more": 8
 ---
 question: |
   Is your total annual household income less than
   ${ currency((float(number_of_people_in_household) - 1) * 8320 + 23541, decimals=False) }?
 yesno: is_low_income
+decoration: bills
 ---
 sets: done_with_survey
 question: Thank you!
