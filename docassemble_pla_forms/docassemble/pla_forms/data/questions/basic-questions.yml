@@ -79,7 +79,6 @@ subquestion: |
   % endif
 buttons:
   - Exit: exit
-  - Restart: restart
 ---
 question: |
   Your ${ form_type } will not be submitted.

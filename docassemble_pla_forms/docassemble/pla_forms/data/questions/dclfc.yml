@@ -1,0 +1,173 @@
+# ---
+# default language: en
+---
+modules:
+  - docassemble.base.legal
+  - docassemble.pla_forms.objects
+---
+objects:
+  - respondent: Individual
+  - recipient: Individual
+  - casefile: LegalServerCase
+# ---
+# initial: true
+# code: |
+#   set_language(respondent.language)
+---
+mandatory: True
+code: |
+  recipient.name.first = "Jonathan"
+  recipient.name.last  = "Pyle"
+  recipient.email      = "jpyle@philalegal.org"
+  recipient.workphone  = "215-981-3800"
+  unique_id = url_args.get('id', None)
+  if unique_id is not None:
+    casefile.retrieve(unique_id)
+    if 'cfname' in casefile.fields and casefile.fields['cfname']:
+      respondent.name.first = casefile.fields['cfname']
+    if 'clname' in casefile.fields and casefile.fields['clname']:
+      respondent.name.last = casefile.fields['clname']
+    if 'pcode' in casefile.fields and casefile.fields['pcode']:
+      recipient.legal_problem = casefile.fields['pcode']
+---
+mandatory: true
+code: |
+  need(intro_screen, treated_courteously, helpful, satisfied, final_comments, exit_page)
+---
+generic object: Individual
+question: |
+  What language do you speak?  (¿Qué idioma habla?)
+field: respondent.language
+choices:
+  - English: en
+  - Español: es
+---
+field: intro_screen
+question: |
+  Drexel Civil Litigation Field Clinic Client Satisfaction Survey
+subquestion: |
+  We are asking you to fill out this survey because you received legal
+  assistance from the Drexel Civil Litigation Field Clinic (DCLFC).
+  The DCLFC is a project of the Drexel University School of Law and
+  Philadelphia Legal Assistance in which law students represent
+  clients under the supervision of attorneys.
+
+  The purpose of the survey is to improve the quality of the services
+  DCLFC provides.  Your answers will not affect your ability to
+  receive assistance from DCLFC or Philadelphia Legal Assistance in
+  the future.
+
+  This survey will only take a few minutes (only three questions need
+  to be answered).
+  
+  To get started, please press **Continue.**
+---
+question: |
+  Were you treated courteously by the clinic personnel?
+fields:
+  - no label: treated_courteously
+    datatype: radio
+    choices:
+      - "Yes"
+      - "No"
+      - "Sometimes"
+  - note: Any comments?
+  - no label: treated_courteously_comments
+    datatype: area
+    required: false
+---
+question: |
+  Were the legal personnel who assisted you helpful in trying
+  to solve your problems?
+field: helpful
+choices:
+  - "Yes": "Yes"
+  - "No": "No"
+  - "Partly": "Partly"
+---
+question: |
+  Were you satisfied with the services you received?
+fields:
+  - no label: satisfied
+    datatype: radio
+    choices:
+      - "Yes"
+      - "No"
+      - "Partly"
+  - note: Any comments?
+  - no label: satisfied_comments
+    datatype: area
+    required: false
+---
+question: |
+  Please provide any other comments or suggestions you have.
+fields:
+  - no label: final_comments
+    datatype: area
+    required: false
+---
+sets: exit_page
+question: |
+  Thank you for taking the time to fill out the survey.
+subquestion: |
+  % if answers_saved:
+  Your answers have been saved.
+  % else:
+  We're sorry, there was a computer error and we were not able to
+  save your comments.
+  % endif
+
+  If you need help with your case in the future, you can apply for
+  legal assistance by calling [Philadelphia Legal
+  Assistance](http://philalegal.org) at 215-981-3838.
+buttons:
+  - Exit: exit
+    url: http://drexel.edu/law/academics/clinics/field_clinics/
+---
+code: |
+  if send_email(to=recipient, body=survey_email.content, subject="DCLFC client satisfaction survey result"):
+    answers_saved = True
+  else:
+    answers_saved = False
+---
+template: survey_email
+subject: |
+  DCLFC client satisfaction survey result for ${ respondent }
+content: |
+  1. Your name: ${ respondent }
+  
+  2. What type of case did you have? ${ recipient.legal_problem }
+  
+  3. Were you treated courteously by the clinic personnel? ${ treated_courteously }
+
+  Any comments:
+
+  ${ treated_courteously_comments }
+
+  4. Were the legal personnel who assisted you helpful in trying to solve your problems? ${ helpful }
+  
+  5. Were you satisfied with the services you received? ${ satisfied }
+
+  Any comments:
+
+  ${ satisfied_comments }
+
+  6. Please provide any other comments or suggestions you have.
+
+  ${ final_comments } 
+---
+interview help:
+  heading: About this survey
+  content: |
+    We are asking you to fill out this survey because you received
+    legal assistance from the Drexel Civil Litigation Field Clinic
+    (DCLFC). The DCLFC is a project of the Drexel University School of
+    Law and Philadelphia Legal Assistance in which law students
+    represent clients under the supervision of attorneys.
+
+    The purpose of the survey is to improve the quality of the
+    services DCLFC provides. Your answers will not affect your ability
+    to receive assistance from DCLFC or Philadelphia Legal Assistance
+    in the future.
+#https://document.philalegal.org/cit/NTY0NGI4YjQtNWUyYy00NmRjLTkwNWEtNzZmYmMwYThjOGNj
+#Thanks for agreeing to fill out our survey! Here's the link: http://survey.philalegal.org/dclfc/NTY0NGI4YjQtNWUyYy00NmRjLTkwNWEtNzZmYmMwYThjOGNj

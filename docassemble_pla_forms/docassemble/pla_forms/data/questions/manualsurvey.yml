@@ -1,0 +1,118 @@
+---
+metadata:
+  description: |
+    Philadelphia Legal Assistance Needs Assessment 2015 manual survey entry system
+  authors:
+    - name: Jonathan Pyle
+      organization: Philadelphia Legal Assistance
+  revision_date: 2015-10-30
+---
+include:
+  - docassemble.pla_forms:data/questions/basic-questions.yml
+---
+images:
+  pla_logo: PLA-logo-200.jpg
+---
+modules:
+  - docassemble.pla_forms.objects
+---
+objects:
+  - storage: Storage
+  - problems: ProblemListing
+---
+question: |
+  In your own words, what are the most significant problems in your community? (optional)
+subquestion: |
+  If the interviewee did not write anything here, just press **Continue**.
+fields:
+  - no label: othersocialproblem
+    datatype: area
+    required: false
+---
+question: |
+  Significant Legal Issues in Your Community
+subquestion: |
+  Select all the items that the interviewee checked.  Include every item even
+  if the interviewee checked more than five items.
+decoration: scalesofjustice
+fields:
+  - no label: legalproblems
+    code: |
+      problems.legal()
+    datatype: checkboxes
+  - note: |
+      If the interviewee wrote something on the blank line at the bottom
+      of the page, or wrote anything else on this page, type it in here.
+  - no label: otherlegalproblem
+    datatype: area
+    required: false
+---
+question: |
+  Significant Problems in Your Community
+subquestion: |
+  Select all the items that the interviewee checked.  Include every item even
+  if the interviewee checked more than five items.
+fields:
+  - no label: socialproblems
+    code: |
+      problems.social()
+    datatype: checkboxes
+  - note: |
+      In your own words, what are the most significant problems in your community? (optional)
+  - no label: othersocialproblem
+    datatype: area
+    required: false
+---
+question: What is the number in the upper-right-hand corner of the paper survey?
+fields:
+  - Number: paper_survey_number
+    datatype: number
+---
+question: |
+  Question 1: What type of legal problem are you here for today?
+fields:
+  - no label: todays_problem
+    datatype: area
+---
+code: |
+  need(paper_survey_number)
+  need(todays_problem)
+  need(zip_code)
+  initial_information_gathered = True
+---
+question: |
+  Question 2: What is your zip code?
+decoration: map
+fields:
+  - no label: zip_code
+    hint: e.g., 19146
+---
+code: |
+  user_type = url_args.get('type', 'walkin')
+  if 'test' in url_args:
+    is_test = True
+  else:
+    is_test = False
+---
+code: |
+  store = dict()
+  for variable in ['zip_code', 'user_type', 'is_test', 'legalproblems', 'socialproblems', 'otherlegalproblem', 'othersocialproblem', 'paper_survey_number', 'todays_problem']:
+    if variable in globals():
+      store[variable] = globals()[variable]
+  storage.save_survey_results(store)
+  saved_survey_results = True
+---
+sets: done_with_survey
+question: Ok, done
+subquestion: |
+  The answers have been saved.
+
+  Thanks!
+buttons:
+  - Enter another: restart
+  - Exit: exit
+---
+mandatory: true
+code: |
+  need(user_type, is_test, initial_information_gathered, legalproblems, otherlegalproblem, socialproblems, othersocialproblem, saved_survey_results)
+  need(done_with_survey)

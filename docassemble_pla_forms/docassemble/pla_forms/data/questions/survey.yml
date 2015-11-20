@@ -320,7 +320,7 @@ code: |
       board_member_type = 'client'
     else:
       board_member_type = 'community'
-  if user_type in ['community', 'legalservices', 'staff']:
+  if user_type in ['community', 'legalservices', 'staff', 'board']:
     need(underserved_area_of_law, underserved_populations)
   initial_information_gathered = True
 ---
@@ -345,7 +345,8 @@ choices:
   - Advocacy organization
   - Social service organization
   - Legal services organization
-  - City agency
+  - City government
+  - Educational institution
   - Law firm
   - Other
   - None
@@ -404,18 +405,20 @@ fields:
 question: |
   Any final comments?
 subquestion: |
-  This is the last question of the interview.  Do you have any final
-  comments that you think might be helpful to us when we are reviewing
-  the results of our survey?
+  This is the last question of the interview.
+
+  Do you have any final comments that you think might be helpful for
+  us to consider during the needs assessment process?
 
   If not, press **Continue** to submit your answers.
 fields:
-  - Comments: final_comments
+  - no label: final_comments
     datatype: area
+    required: false
 ---
 code: |
   store = dict()
-  for variable in ['organization_type', 'zip_code', 'board_member_type', 'user_type', 'legalproblems', 'socialproblems', 'otherlegalproblem', 'othersocialproblem', 'is_test', 'is_low_income', 'staff_type', 'law_organization_practice_area']:
+  for variable in ['organization_type', 'zip_code', 'board_member_type', 'user_type', 'legalproblems', 'socialproblems', 'otherlegalproblem', 'othersocialproblem', 'is_test', 'is_low_income', 'staff_type', 'law_organization_practice_area', 'underserved_populations', 'underserved_area_of_law', 'final_comments']:
     if variable in globals():
       store[variable] = globals()[variable]
   storage.save_survey_results(store)
@@ -473,5 +476,8 @@ buttons:
 ---
 mandatory: true
 code: |
-  need(welcome_screen, initial_information_gathered, legalproblems, otherlegalproblem, socialproblems, othersocialproblem, saved_survey_results)
+  need(welcome_screen, initial_information_gathered, legalproblems, otherlegalproblem, socialproblems, othersocialproblem)
+  if user_type != 'client':
+    need(final_comments)
+  need(saved_survey_results)
   need(done_with_survey)
