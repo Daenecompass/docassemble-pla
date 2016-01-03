@@ -1,0 +1,12 @@
+---
+question: Hello, world!
+subquestion: |
+  Today is a ${ type of day }, isn't it?
+mandatory: true
+---
+question: What type of day is it?
+field: type_of_day
+choices:
+  - Fine: fine
+  - Lousy: lousy
+---
