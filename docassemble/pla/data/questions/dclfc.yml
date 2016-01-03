@@ -1,18 +1,12 @@
-# ---
-# default language: en
 ---
 modules:
   - docassemble.base.legal
-  - docassemble.pla_forms.objects
+  - docassemble.pla.objects
 ---
 objects:
   - respondent: Individual
   - recipient: Individual
   - casefile: LegalServerCase
-# ---
-# initial: true
-# code: |
-#   set_language(respondent.language)
 ---
 mandatory: True
 code: |
@@ -63,7 +57,7 @@ subquestion: |
   To get started, please press **Continue.**
 ---
 question: |
-  Were you treated courteously by the clinic personnel?
+  Were you treated courteously by the legal personnel who assisted you?
 fields:
   - no label: treated_courteously
     datatype: radio
@@ -100,7 +94,7 @@ fields:
     required: false
 ---
 question: |
-  Please provide any other comments or suggestions you have.
+  Do you have any final comments or suggestions?  (optional)
 fields:
   - no label: final_comments
     datatype: area
@@ -108,7 +102,7 @@ fields:
 ---
 sets: exit_page
 question: |
-  Thank you for taking the time to fill out the survey.
+  Thank you for taking the time to fill out this survey.
 subquestion: |
   % if answers_saved:
   Your answers have been saved.
@@ -122,7 +116,6 @@ subquestion: |
   Assistance](http://philalegal.org) at 215-981-3838.
 buttons:
   - Exit: exit
-    url: http://drexel.edu/law/academics/clinics/field_clinics/
 ---
 code: |
   if send_email(to=recipient, body=survey_email.content, subject="DCLFC client satisfaction survey result"):
@@ -169,5 +162,3 @@ interview help:
     services DCLFC provides. Your answers will not affect your ability
     to receive assistance from DCLFC or Philadelphia Legal Assistance
     in the future.
-#https://document.philalegal.org/cit/NTY0NGI4YjQtNWUyYy00NmRjLTkwNWEtNzZmYmMwYThjOGNj
-#Thanks for agreeing to fill out our survey! Here's the link: http://survey.philalegal.org/dclfc/NTY0NGI4YjQtNWUyYy00NmRjLTkwNWEtNzZmYmMwYThjOGNj

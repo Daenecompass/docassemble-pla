@@ -8,13 +8,13 @@ metadata:
   revision_date: 2015-10-30
 ---
 include:
-  - docassemble.pla_forms:data/questions/basic-questions.yml
+  - docassemble.pla:data/questions/basic-questions.yml
 ---
 images:
   pla_logo: PLA-logo-200.jpg
 ---
 modules:
-  - docassemble.pla_forms.objects
+  - docassemble.pla.objects
 ---
 objects:
   - storage: Storage
